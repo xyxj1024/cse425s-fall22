@@ -1,0 +1,30 @@
+Group
+    structure UnitTesting
+    structure ListStrictness
+	structure ExceptionTesting
+	structure BoolTesting
+	structure RealTesting
+    signature EQUALITY_TESTING
+    functor EqualityTestingFn
+    structure IntTesting
+	structure StringTesting
+    functor PredicateTestingFn
+    signature PREDICATE_TESTING_FN
+    signature PREDICATE_TESTING_PARAMETER
+is
+    unit_testing.sml
+    list_strictness.sml
+    exception_testing.sml
+    bool_testing.sml
+    real_testing.sml
+    equality_testing.sig
+    equality_testing_fn.sml
+    int_testing.sml
+    string_testing.sml
+    predicate_testing_fn.sml
+    predicate_testing_fn.sig
+    predicate_testing_parameter.sig
+    ../to_string/to_string.cm
+    ../command_line_args/command_line_args.cm
+    $/basis.cm
+    $/smlnj-lib.cm
