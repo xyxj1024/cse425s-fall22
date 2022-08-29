@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>edu.wustl.cse425s</groupId>
-	<artifactId>cse425s-fall22-deploy</artifactId>
+	<artifactId>cse425s-fall22-x.xingjian</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<properties>
