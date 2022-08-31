@@ -1,0 +1,9 @@
+Group
+    structure SumScanFunTesting
+is
+    sum_scan_fun_testing.sml
+    ../sum_scan_testing_core/sum_scan_testing.cm
+    ../../../main/sml/warmup_sum_scan_fun/sum_scan_fun.cm
+    ../unit_testing/unit_testing.cm
+    $/basis.cm
+    $/smlnj-lib.cm

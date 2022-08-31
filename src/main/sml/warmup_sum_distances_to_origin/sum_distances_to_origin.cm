@@ -1,0 +1,6 @@
+Library
+    structure SumDistancesToOrigin
+is
+    sum_distances_to_origin.sml
+    $/basis.cm
+    $/smlnj-lib.cm

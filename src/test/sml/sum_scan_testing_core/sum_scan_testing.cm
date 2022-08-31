@@ -1,0 +1,7 @@
+Group
+    functor SumScanTestingFn
+is
+    sum_scan_testing_fn.sml
+    ../unit_testing/unit_testing.cm
+    $/basis.cm
+    $/smlnj-lib.cm
