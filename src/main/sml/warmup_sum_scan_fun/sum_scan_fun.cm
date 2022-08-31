@@ -1,0 +1,6 @@
+Group
+    structure SumScanFun
+is
+    sum_scan_fun.sml
+    $/basis.cm
+    $/smlnj-lib.cm

@@ -17,6 +17,8 @@ structure UnitTesting : sig
     (* TODO: remove??? *)
     val on_success : string option * string -> unit
     val on_failure : string option * string * string -> unit
+    val on_delta_failure : string option * real * real * real -> unit
+    val on_epsilon_failure : string option * real * real * real -> unit
     val on_exception : string option * string * exn -> unit
 end = struct
     exception AssertionFailure
@@ -87,6 +89,41 @@ end = struct
         in 
             (
             output( "!!!!!! ASSERTION FAILURE !!!!!!\n!!!\n!!!\n" ^ a ^ b ^ c ^ "!!!\n!!!\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n" ) 
+            ; 
+            if isRaiseOnFailure()
+            then raise AssertionFailure
+            else ()
+            )
+        end
+
+    fun on_delta_failure(message_option : string option, expected : real, actual : real, delta : real) : unit = 
+        let
+            val a = "!!!        test case: " ^ text_from_message_option(message_option) ^ "\n"
+            val b = "!!! ASSERION FAILURE: expected: " ^ Real.toString(expected) ^ "\n"
+            val c = "!!!                     actual: " ^ Real.toString(actual) ^ "\n"
+            val d = "!!!                 difference: " ^ Real.toString(abs(expected-actual)) ^ "\n"
+            val e = "!!!    specified allowed delta: " ^ Real.toString(delta) ^ "\n"
+        in 
+            (
+            output( "!!!!!! ASSERTION FAILURE !!!!!!\n!!!\n!!!\n" ^ a ^ b ^ c ^ d ^ e ^ "!!!\n!!!\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n" ) 
+            ; 
+            if isRaiseOnFailure()
+            then raise AssertionFailure
+            else ()
+            )
+        end
+
+    fun on_epsilon_failure(message_option : string option, expected : real, actual : real, epsilon : real) : unit = 
+        let
+            val a = "!!!        test case: " ^ text_from_message_option(message_option) ^ "\n"
+            val b = "!!! ASSERION FAILURE: expected: " ^ Real.toString(expected) ^ "\n"
+            val c = "!!!                     actual: " ^ Real.toString(actual) ^ "\n"
+            val d = "!!!                 difference: " ^ Real.toString(abs(expected-actual)) ^ "\n"
+            val e = "!!!        relative difference: " ^ Real.toString(abs(1.0 - (actual/expected))) ^ "\n"
+            val f = "!!!  specified allowed epsilon: " ^ Real.toString(epsilon) ^ "\n"
+        in 
+            (
+            output( "!!!!!! ASSERTION FAILURE !!!!!!\n!!!\n!!!\n" ^ a ^ b ^ c ^ d ^ e ^ f ^ "!!!\n!!!\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n" ) 
             ; 
             if isRaiseOnFailure()
             then raise AssertionFailure
