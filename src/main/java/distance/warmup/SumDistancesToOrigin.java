@@ -26,13 +26,14 @@ import immutable.list.util.core.ImList;
 import immutable.tuple.ImTuple2;
 
 /**
- * @author __STUDENT_NAME__
+ * @author Xingjian
  * @author Dennis Cosgrove (http://www.cse.wustl.edu/~cosgroved/)
  */
 public class SumDistancesToOrigin {
 	public static double sumDistancesToOrigin(ImList<ImTuple2<Double, Double>> xys) {
 
-		throw new NotYetImplementedException();
+		/* throw new NotYetImplementedException(); */
+		
 
 	}
 }
