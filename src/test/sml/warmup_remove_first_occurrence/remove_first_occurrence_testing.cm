@@ -1,0 +1,9 @@
+Group
+    structure RemoveFirstOccurrenceTesting
+is
+    remove_first_occurrence_testing.sml
+    ../../../main/sml/warmup_remove_first_occurrence/remove_first_occurrence.cm
+    ../unit_testing/unit_testing.cm
+    $/basis.cm
+    $/smlnj-lib.cm
+

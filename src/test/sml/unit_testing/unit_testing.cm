@@ -25,6 +25,7 @@ is
     predicate_testing_fn.sig
     predicate_testing_parameter.sig
     ../to_string/to_string.cm
+    ../close_enough/close_enough.cm
     ../command_line_args/command_line_args.cm
     $/basis.cm
     $/smlnj-lib.cm

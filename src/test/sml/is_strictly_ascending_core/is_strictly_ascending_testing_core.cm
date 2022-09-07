@@ -1,0 +1,7 @@
+Group
+    functor IsStrictlyAscendingTestingFn
+is
+    is_strictly_ascending_testing_core_fn.sml
+    ../unit_testing/unit_testing.cm
+    $/basis.cm
+    $/smlnj-lib.cm
