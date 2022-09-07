@@ -1,7 +1,11 @@
 structure RemoveFirstOccurrence = struct
 
-    (* __STUDENT_NAME__ *)
+    (* Xingjian *)
     fun remove_first_occurrence(xs : ''a list, target : ''a) : ''a list =
-        raise Fail "NotYetImplemented"
+        if null xs
+        then []
+        else if hd xs <> target
+        then hd xs :: remove_first_occurrence(tl xs, target)
+        else remove_first_occurrence(tl xs, target)
 
 end
