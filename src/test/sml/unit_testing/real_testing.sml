@@ -23,7 +23,7 @@ end = struct
     fun assert_eval_within_delta( expected : real, thunk : unit -> real, delta : real, message_option : string option) = 
 		let
 			val actual = (thunk()) handle e => (UnitTesting.on_exception(message_option, Real.toString(expected), e); raise e)
-            val success = abs(expected-actual) <= delta
+            val success = CloseEnough.withinDelta(expected, actual, delta)
 		in
             if success
             then UnitTesting.on_success( message_option, "as expected, close enough: " ^ Real.toString(expected))
@@ -51,7 +51,7 @@ end = struct
             val success = 
                 if Real.compare(expected, 0.0) = EQUAL
                 then Real.compare(expected, actual) = EQUAL
-                else abs(1.0 - (actual/expected)) <= epsilon
+                else CloseEnough.withinEpsilon(expected, actual, epsilon)
         in
             if success
             then UnitTesting.on_success(message_option, "as expected, close enough (relatively): " ^ Real.toString(expected))

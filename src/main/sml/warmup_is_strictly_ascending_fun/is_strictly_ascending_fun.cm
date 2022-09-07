@@ -1,0 +1,6 @@
+Library
+    structure IsStrictlyAscendingFun
+is
+    is_strictly_ascending_fun.sml
+    $/basis.cm
+    $/smlnj-lib.cm

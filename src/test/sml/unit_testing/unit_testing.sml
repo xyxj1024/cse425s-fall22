@@ -101,7 +101,7 @@ end = struct
             val a = "!!!        test case: " ^ text_from_message_option(message_option) ^ "\n"
             val b = "!!! ASSERION FAILURE: expected: " ^ Real.toString(expected) ^ "\n"
             val c = "!!!                     actual: " ^ Real.toString(actual) ^ "\n"
-            val d = "!!!                 difference: " ^ Real.toString(abs(expected-actual)) ^ "\n"
+            val d = "!!!                 difference: " ^ Real.toString(CloseEnough.distance(expected, actual)) ^ "\n"
             val e = "!!!    specified allowed delta: " ^ Real.toString(delta) ^ "\n"
         in 
             (
@@ -115,11 +115,13 @@ end = struct
 
     fun on_epsilon_failure(message_option : string option, expected : real, actual : real, epsilon : real) : unit = 
         let
+            val relative_distance = CloseEnough.relativeDistance(expected, actual)
+
             val a = "!!!        test case: " ^ text_from_message_option(message_option) ^ "\n"
             val b = "!!! ASSERION FAILURE: expected: " ^ Real.toString(expected) ^ "\n"
             val c = "!!!                     actual: " ^ Real.toString(actual) ^ "\n"
-            val d = "!!!                 difference: " ^ Real.toString(abs(expected-actual)) ^ "\n"
-            val e = "!!!        relative difference: " ^ Real.toString(abs(1.0 - (actual/expected))) ^ "\n"
+            val d = "!!!                 difference: " ^ Real.toString(CloseEnough.distance(expected, actual)) ^ "\n"
+            val e = "!!!        relative difference: " ^ (case relative_distance of NONE => "undefined at 0.0, required compare EQUAL." | SOME(rd) => Real.toString(rd)) ^ "\n"
             val f = "!!!  specified allowed epsilon: " ^ Real.toString(epsilon) ^ "\n"
         in 
             (

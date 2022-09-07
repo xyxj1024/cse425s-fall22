@@ -1,0 +1,8 @@
+Group
+    structure IsStrictlyAscendingFunTesting
+is
+    ../../../main/sml/warmup_is_strictly_ascending_fun/is_strictly_ascending_fun.cm
+    ../is_strictly_ascending_core/is_strictly_ascending_testing_core.cm
+    is_strictly_ascending_fun_testing.sml
+    $/basis.cm
+    $/smlnj-lib.cm

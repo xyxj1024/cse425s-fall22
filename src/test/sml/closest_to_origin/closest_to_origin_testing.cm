@@ -1,0 +1,10 @@
+Group
+    structure ClosestToOriginTesting
+is
+    closest_to_origin_testing.sml
+    ../../../main/sml/closest_to_origin/closest_to_origin.cm
+    ../unit_testing/unit_testing.cm
+    ../to_string/to_string.cm
+    ../close_enough/close_enough.cm
+    $/basis.cm
+    $/smlnj-lib.cm
