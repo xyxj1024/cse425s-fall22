@@ -21,11 +21,11 @@
  ******************************************************************************/
 package immutable.list.util.exercise;
 
-import edu.wustl.cse.cosgroved.NotYetImplementedException;
+/* import edu.wustl.cse.cosgroved.NotYetImplementedException; */
 import immutable.list.util.core.ImList;
 
 /**
- * @author __STUDENT_NAME__
+ * @author Xingjian Xuanyuan
  * @author Dennis Cosgrove (http://www.cse.wustl.edu/~cosgroved/)
  */
 public class ImLists {
@@ -36,10 +36,9 @@ public class ImLists {
 	 * @param <E> the type of elements held in the ImList
 	 * @return an empty ImList
 	 */
+	@SuppressWarnings("unchecked")
 	public static <E> ImList<E> nil() {
-
-		throw new NotYetImplementedException();
-
+		return (ImList<E>) EmptyImList.getSingleton();
 	}
 
 	/**
@@ -52,9 +51,27 @@ public class ImLists {
 	 * @return the constructed list
 	 */
 	public static <E> ImList<E> cons(E head, ImList<E> tail) {
+		return new NonEmptyImList<>(head, tail);
+	}
 
-		throw new NotYetImplementedException();
-
+	/**
+	 * Recursively define ImList<E> as EmptyImList + cons(head, tail)
+	 * 
+	 * @param <E> the type of elements held in the ImList
+	 * @param index the position of element in the elements array
+	 * @param NewImList the constructed list
+	 * @param elements the contents of the to be created list
+	 * @return the created list
+	 */
+	@SafeVarargs
+	private static <E> ImList<E> recursive_cons(int index, ImList<E> NewImList, E... elements) {
+		if (index == 0) {
+			return NewImList;
+		} else {
+			index--;
+			NewImList = cons(elements[index], NewImList);
+			return recursive_cons(index, NewImList, elements);
+		}
 	}
 
 	/**
@@ -67,8 +84,8 @@ public class ImLists {
 	 */
 	@SafeVarargs
 	public static <E> ImList<E> brackets(E... elements) {
-
-		throw new NotYetImplementedException();
-
+		ImList<E> NewImList = nil();
+		int index = elements.length;
+		return recursive_cons(index, NewImList, elements);
 	}
 }

@@ -29,36 +29,35 @@ import edu.wustl.cse.cosgroved.NotYetImplementedException;
 import immutable.list.util.core.ImList;
 
 /**
- * @author __STUDENT_NAME__
+ * @author Xingjian Xuanyuan
  * @author Dennis Cosgrove (http://www.cse.wustl.edu/~cosgroved/)
  */
 /* package-private */ final class NonEmptyImList<E> implements ImList<E> {
+	private final E head;
+	private final ImList<E> tail;
 
 	/* package-private */ NonEmptyImList(E head, ImList<E> tail) {
-
-		throw new NotYetImplementedException();
-
+		this.head = head;
+		this.tail = tail;
 	}
 
 	@Override
 	public E head() {
-
-		throw new NotYetImplementedException();
-
+		return head;
 	}
 
 	@Override
 	public ImList<E> tail() {
-
-		throw new NotYetImplementedException();
-
+		return tail;
 	}
 
 	@Override
 	public boolean isEmpty() {
-
-		throw new NotYetImplementedException();
-
+		if (head() == null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override

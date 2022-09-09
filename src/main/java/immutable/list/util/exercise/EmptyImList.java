@@ -7,7 +7,7 @@ import edu.wustl.cse.cosgroved.NotYetImplementedException;
 import immutable.list.util.core.ImList;
 
 /**
- * @author __STUDENT_NAME__
+ * @author Xingjian Xuanyuan
  * @author Dennis Cosgrove (http://www.cse.wustl.edu/~cosgroved/)
  */
 /* package-private */ enum EmptyImList implements ImList<Object> {
@@ -19,29 +19,24 @@ import immutable.list.util.core.ImList;
 	}
 
 	private EmptyImList() {
-
-		throw new NotYetImplementedException();
-
 	}
 
 	@Override
 	public boolean isEmpty() {
-
-		throw new NotYetImplementedException();
-
+		return true;
 	}
 
 	@Override
 	public Object head() {
 
-		throw new NotYetImplementedException();
+		throw new NoSuchElementException();
 
 	}
 
 	@Override
 	public ImList<Object> tail() {
 
-		throw new NotYetImplementedException();
+		throw new NoSuchElementException();
 
 	}
 
