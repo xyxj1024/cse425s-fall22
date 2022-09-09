@@ -25,7 +25,7 @@ import edu.wustl.cse.cosgroved.NotYetImplementedException;
 import immutable.list.util.core.ImList;
 
 /**
- * @author __STUDENT_NAME__
+ * @author Xingjian Xuanyuan
  * @author Dennis Cosgrove (http://www.cse.wustl.edu/~cosgroved/)
  */
 public class Length {
@@ -35,8 +35,10 @@ public class Length {
 	 * @return the length of the specified list
 	 */
 	public static <E> int length(ImList<E> list) {
-
-		throw new NotYetImplementedException();
-
+		if (list.isEmpty()) {
+			return 0;
+		} else {
+			return 1 + length(list.tail());
+		}
 	}
 }

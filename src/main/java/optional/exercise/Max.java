@@ -27,14 +27,20 @@ import edu.wustl.cse.cosgroved.NotYetImplementedException;
 import immutable.list.util.core.ImList;
 
 /**
- * @author __STUDENT_NAME__
+ * @author Xingjian Xuanyuan
  * @author Dennis Cosgrove (http://www.cse.wustl.edu/~cosgroved/)
  */
 public class Max {
 
 	public static Optional<Integer> maximum(ImList<Integer> xs) {
-
-		throw new NotYetImplementedException();
-
+		if (xs.isEmpty()) {
+			return Optional.empty();
+		} else if (xs.tail().isEmpty()) {
+			return Optional.of(xs.head());
+		}
+		else {
+			int max = maximum(xs.tail()).get();
+			return xs.head() >= max ? Optional.of(xs.head()) : maximum(xs.tail());
+		}
 	}
 }

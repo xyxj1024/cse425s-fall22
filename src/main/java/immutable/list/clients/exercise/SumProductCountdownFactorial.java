@@ -28,7 +28,7 @@ import edu.wustl.cse.cosgroved.NotYetImplementedException;
 import immutable.list.util.core.ImList;
 
 /**
- * @author __STUDENT_NAME__
+ * @author Xingjian Xuanyuan
  * @author Dennis Cosgrove (http://www.cse.wustl.edu/~cosgroved/)
  */
 public class SumProductCountdownFactorial {
@@ -39,9 +39,11 @@ public class SumProductCountdownFactorial {
 	 * @return the sum of the list
 	 */
 	public static int sum(ImList<Integer> xs) {
-
-		throw new NotYetImplementedException();
-
+		if (xs.isEmpty()) {
+			return 0;
+		} else {
+			return xs.head() + sum(xs.tail());
+		}
 	}
 
 	/**
@@ -51,9 +53,11 @@ public class SumProductCountdownFactorial {
 	 * @return the result of multiplying the values in xs
 	 */
 	public static int product(ImList<Integer> xs) {
-
-		throw new NotYetImplementedException();
-
+		if (xs.isEmpty()) {
+			return 1;
+		} else {
+			return xs.head() * product(xs.tail());
+		}
 	}
 
 	/**
@@ -63,9 +67,11 @@ public class SumProductCountdownFactorial {
 	 * @return the list which contains the numbers from n down to 1
 	 */
 	public static ImList<Integer> countdown(int n) {
-
-		throw new NotYetImplementedException();
-
+		if (n <= 0) {
+			return nil();
+		} else {
+			return cons(n, countdown(n - 1));
+		}
 	}
 
 	/**
@@ -76,8 +82,6 @@ public class SumProductCountdownFactorial {
 	 * @return n!
 	 */
 	public static int factorial(int n) {
-
-		throw new NotYetImplementedException();
-
+		return product(countdown(n));
 	}
 }

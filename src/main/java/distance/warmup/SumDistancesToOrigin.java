@@ -26,14 +26,16 @@ import immutable.list.util.core.ImList;
 import immutable.tuple.ImTuple2;
 
 /**
- * @author Xingjian
+ * @author Xingjian Xuanyuan
  * @author Dennis Cosgrove (http://www.cse.wustl.edu/~cosgroved/)
  */
 public class SumDistancesToOrigin {
 	public static double sumDistancesToOrigin(ImList<ImTuple2<Double, Double>> xys) {
-
-		/* throw new NotYetImplementedException(); */
-		
-
+		if (xys.isEmpty()) {
+			return 0.0;
+		} else {
+			return sumDistancesToOrigin(xys.tail()) + 
+			Math.sqrt(xys.head().a()*xys.head().a() + xys.head().b()*xys.head().b());
+		}
 	}
 }

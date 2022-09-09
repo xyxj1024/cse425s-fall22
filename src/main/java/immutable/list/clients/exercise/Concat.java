@@ -27,7 +27,7 @@ import edu.wustl.cse.cosgroved.NotYetImplementedException;
 import immutable.list.util.core.ImList;
 
 /**
- * @author __STUDENT_NAME__
+ * @author Xingjian Xuanyuan
  * @author Dennis Cosgrove (http://www.cse.wustl.edu/~cosgroved/)
  */
 public class Concat {
@@ -44,8 +44,10 @@ public class Concat {
 	 * @return the list that is the contents of xs followed by the contents of ys
 	 */
 	public static <E> ImList<E> concat(ImList<E> xs, ImList<E> ys) {
-
-		throw new NotYetImplementedException();
-
+		if (xs.isEmpty()) {
+			return ys;
+		} else {
+			return cons(xs.head(), concat(xs.tail(), ys));
+		}
 	}
 }
