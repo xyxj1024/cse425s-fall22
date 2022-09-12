@@ -5,10 +5,14 @@ end
 signature SUM_SCAN_TESTING_PARAMETER = sig
     val function : int list -> int list
     val function_name : string
+    val is_curried : bool
 end
 
 functor SumScanTestingFn (SumScanTestingParameter : SUM_SCAN_TESTING_PARAMETER) : SUM_SCAN_TESTING_FN = struct
     open SumScanTestingParameter
+
+    val prefix = if is_curried then " " else "("
+    val postfix = if is_curried then "" else ")"
 
     fun test_sum_scan() =
         let
@@ -16,7 +20,7 @@ functor SumScanTestingFn (SumScanTestingParameter : SUM_SCAN_TESTING_PARAMETER) 
                 IntTesting.assertListEvalEqualsWithMessage(
                     expected, 
                     fn() => function(xs), 
-                    function_name ^ "(" ^ IntTesting.toStringFromList(xs) ^ ")"
+                    function_name ^ prefix ^ IntTesting.toStringFromList(xs) ^ postfix
                 )
         in
             ( UnitTesting.enter(function_name)

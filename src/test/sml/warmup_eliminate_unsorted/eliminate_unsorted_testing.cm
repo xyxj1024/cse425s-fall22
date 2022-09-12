@@ -1,0 +1,8 @@
+Group
+    structure EliminateUnsortedTesting
+is
+    eliminate_unsorted_testing.sml
+    ../../../main/sml/warmup_eliminate_unsorted/eliminate_unsorted.cm
+    ../unit_testing/unit_testing.cm
+    $/basis.cm
+    $/smlnj-lib.cm
