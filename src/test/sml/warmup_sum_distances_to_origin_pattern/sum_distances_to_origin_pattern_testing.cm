@@ -1,0 +1,10 @@
+Group
+    structure SumDistancesToOriginPatternTesting
+is
+    sum_distances_to_origin_pattern_testing.sml
+    ../../../main/sml/warmup_sum_distances_to_origin_pattern/sum_distances_to_origin_pattern.cm
+    ../sum_distances_to_origin_testing_core/sum_distances_to_origin_testing.cm
+    ../unit_testing/unit_testing.cm
+    $/basis.cm
+    $/smlnj-lib.cm
+
