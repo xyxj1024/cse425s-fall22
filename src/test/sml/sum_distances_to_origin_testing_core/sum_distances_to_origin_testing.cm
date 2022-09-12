@@ -1,0 +1,7 @@
+Group
+    functor SumDistancesToOriginTestingFn
+is
+    sum_distances_to_origin_testing_fn.sml
+    ../unit_testing/unit_testing.cm
+    $/basis.cm
+    $/smlnj-lib.cm
