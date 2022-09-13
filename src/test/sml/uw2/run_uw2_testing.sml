@@ -224,9 +224,7 @@ end = struct
         in
             ( enter("all_same_color")
                 ; assert_all_same_color([(Hearts, Ace), (Hearts, Ace)])
-                
-
-                (* add additional tests here *)
+                ; assert_all_same_color([])
 
             ; leave() )
         end
@@ -260,8 +258,7 @@ end = struct
         in
             ( enter("score")
                 ; assert_score(4, [(Hearts, Num 2),(Clubs, Num 4)], 10)
-
-                (* add additional tests here *)
+                ; assert_score(5, [], 10)
 
             ; leave() )
         end

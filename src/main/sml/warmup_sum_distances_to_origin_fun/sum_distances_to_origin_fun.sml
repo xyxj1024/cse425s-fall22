@@ -1,5 +1,5 @@
 structure SumDistancesToOriginFun = struct
-	(* __STUDENT_NAME__ *)
+	(* Xingjian Xuanyuan *)
 	(* 
 	 * note: use of #1 and #2 to access the items of the tuple
 	 * leaves some ambiguity of exactly how big the tuple actually is.
@@ -8,6 +8,7 @@ structure SumDistancesToOriginFun = struct
 	 * (real * real) list.
 	 *)
 	fun sum_distances_to_origin(xys : (real * real) list) : real =
-		raise Fail "NotYetImplemented"
-
+		case xys of [] => 0.0 | (headx, heady)::tail =>
+			sum_distances_to_origin(tail) + 
+			Math.sqrt(headx * headx + heady * heady)
 end

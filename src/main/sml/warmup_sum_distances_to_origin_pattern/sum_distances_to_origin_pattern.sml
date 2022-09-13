@@ -1,5 +1,5 @@
 structure SumDistancesToOriginPattern = struct
-	(* __STUDENT_NAME__ *)
+	(* Xingjian Xuanyuan *)
 
 	(* 
 	 * note: pattern matching removes any ambiguity of the type of xys, 
@@ -11,6 +11,7 @@ structure SumDistancesToOriginPattern = struct
 	 * fun sum_distances_to_origin(xys : (real * real) list) : real = 
 	 *)
 	fun sum_distances_to_origin(xys) =
-		raise Fail "NotYetImplemented"
-
+		case xys of [] => 0.0 | (x, y)::tail =>
+			sum_distances_to_origin(tail) + 
+			Math.sqrt(x * x + y * y)
 end

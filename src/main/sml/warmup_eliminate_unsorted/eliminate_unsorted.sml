@@ -1,6 +1,13 @@
 structure EliminateUnsorted = struct
-	(* __STUDENT_NAME__ *)
+	(* Xingjian Xuanyuan *)
 
     fun eliminate_unsorted(xs : int list) : int list =
-    	raise Fail "NotYetImplemented"
+		case xs of [] => [] | y::ys =>
+			let fun iterate(ys, max) =
+				case ys of [] => [] | z::zs =>
+					if z < max then iterate(zs, max)
+					else z::iterate(zs, z)
+		in
+			iterate(xs, y)
+		end
 end
