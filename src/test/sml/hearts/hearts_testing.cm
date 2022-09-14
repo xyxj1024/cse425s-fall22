@@ -1,0 +1,8 @@
+Group
+    structure HeartsTesting
+is
+    hearts_testing.sml
+    ../../../main/sml/hearts/hearts.cm
+    ../unit_testing/unit_testing.cm
+    $/basis.cm
+    $/smlnj-lib.cm
