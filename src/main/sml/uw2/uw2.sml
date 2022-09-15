@@ -161,7 +161,8 @@ fun score_challenge(held : card list, goal : int) : int =
       new_score(held, [], bench_mark)
    end
 
-
+(* Sep. 13: 
+   Should modify sum_cards to take into account the case of Aces *)
 fun officiate_challenge(cs : card list, mv : move list, goal : int) : int =
    let fun make_move(cs, mv, held) =
       case mv of [] => held | m::ms => 

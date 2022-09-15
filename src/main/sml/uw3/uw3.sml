@@ -9,6 +9,20 @@ datatype pattern = Wildcard
 		 | TupleP of pattern list
 		 | ConstructorP of string * pattern
 
+(* type point = (int * int)
+   type circle = (point * int)
+
+   fun is_overlapping_with_origin(circle_option : circle option) : bool =
+       case circle_option of
+	       NONE => false
+		 | SOME((x,y),radius) => x*x + y*y <= radius*radius
+
+   fun is_radius_42(circle_option : circle option) : bool =
+       case circle_option of
+	       SOME(_,42) => true
+		 | _ => false
+ *)
+
 datatype valu = Const of int
 	      | Unit
 	      | Tuple of valu list
@@ -70,5 +84,4 @@ val first_match = fn _ => raise Fail "Not Yet Implemented.  Delete this line and
 
 val typecheck_patterns = fn _ => raise Fail "Not Yet Implemented.  Delete this line and implement function typecheck_patterns."
 
-(* __STUDENT_NAME__ *)
-
+(* Xingjian Xuanyuan *)

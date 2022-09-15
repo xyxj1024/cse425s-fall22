@@ -21,7 +21,7 @@
  ******************************************************************************/
 package distance.warmup;
 
-import edu.wustl.cse.cosgroved.NotYetImplementedException;
+/* import edu.wustl.cse.cosgroved.NotYetImplementedException; */
 import immutable.list.util.core.ImList;
 import immutable.tuple.ImTuple2;
 
@@ -34,8 +34,9 @@ public class SumDistancesToOrigin {
 		if (xys.isEmpty()) {
 			return 0.0;
 		} else {
-			return sumDistancesToOrigin(xys.tail()) + 
-			Math.sqrt(xys.head().a()*xys.head().a() + xys.head().b()*xys.head().b());
+			double x = xys.head().a();
+			double y = xys.head().b();
+			return sumDistancesToOrigin(xys.tail()) + Math.sqrt(x * x + y * y);
 		}
 	}
 }
