@@ -53,24 +53,23 @@ datatype typ = Anything       (* any type of value is okay *)
 (* Takes a string list and returns a string list that
    has only the strings in the argument that start with
    an uppercase letter. *)
-val only_capitals = fn lst =>
-	List.filter (fn str => Char.isUpper(String.sub(str, 0))) lst
+val only_capitals =
+	List.filter(fn str => Char.isUpper(String.sub(str, 0)))
 
 (* Takes a string list and returns the longest string in the list. *)
-val longest_string1 = fn lst =>
+val longest_string1 =
 	foldl (fn (str, max) => 
-		       case (String.size str > String.size max) of 
-			       true => str | false => max)
-	"" lst
+		   case (String.size str > String.size max) of 
+		   true => str | false => max) ""
 
 (* In the case of ties, returns the string closest to the end *)
-val longest_string2 = fn lst =>
+val longest_string2 =
 	foldl
 	(fn (str, max) =>
 		(* >= rather than > *) 
 		case (String.size str >= String.size max) of 
 			true => str | false => max)
-	"" lst
+	""
 
 (* (int * int -> bool) -> string list -> string *)
 fun longest_string_helper f lst =
@@ -84,12 +83,12 @@ fun longest_string_helper f lst =
 (* Has the same behavior as 1; Defined with val-bindings
    and partial applications of the helper function. *)
 val longest_string3 =
-	longest_string_helper (fn (x, y) => x > y)
+	longest_string_helper(fn (x, y) => x > y)
 
 (* Has the same behavior as 2; Defined with val-bindings
    and partial applications of the helper function. *)
 val longest_string4 =
-	longest_string_helper (fn (x, y) => x >= y)
+	longest_string_helper(fn (x, y) => x >= y)
 
 (* Takes a string list and returns the longest string in the list
    that begins with an uppercase letter. *)
@@ -187,7 +186,78 @@ fun first_match v lst =
 	SOME (first_answer (fn p => match (v, p)) lst)
 	handle NoAnswer => NONE
 
+(* Helper function: converts a pattern to a typ *)
+fun pattern_to_typ (pat, cons) =
+	case pat of
+		Wildcard => Anything
+	  | Variable _ => Anything
+	  | UnitP => UnitT
+	  | ConstP _ => IntT
+	  | TupleP ps =>
+	    (* Converts every pattern to typ in ps: *)
+	  	TupleT ( foldl (fn (p, acc) => acc@[pattern_to_typ (p, cons)]) [] ps )
+	  | ConstructorP (s, p) => 
+	  		(* Local helper function:
+			       matches a ConstructorP in a list of string * string * typ pairs
+                   (the constructor list) and converts it to a named Datatype *)
+	  		let fun cons_to_nd cs =
+				case cs of
+					[] => Datatype ""
+	  			  | (x, y, z)::rest =>
+	  					if (x = s) andalso 
+						(pattern_to_typ (p, cons) = z orelse
+						 pattern_to_typ (p, cons) = Anything)
+						then Datatype y
+						else cons_to_nd rest
+			in
+				cons_to_nd cons
+			end
+
+
+(* Helper function: Given the constructor list, converts every pattern
+                    in the pattern list to a typ and returns a typ list *)
+fun patlst_to_typlst (cons, pats, acc) =
+	(* Do not use nested case expressions *)
+	case (pats, acc) of
+		([], [])     => [Datatype ""]
+	  | ([], _)      => acc
+	  | (p::ps, _) => patlst_to_typlst (cons, ps, acc@[pattern_to_typ (p, cons)])
+
+(* Helper function: converts a list of typs to an appropriate typ *)
+fun typlst_to_typ typs =
+	foldl
+	(* Local helper function: given two typs, returns an appropriate typ *)
+	( fn (x, y) =>
+		case (x, y) of
+			(Anything, y) => y
+	  	  | (x, Anything) => x
+	      | (TupleT(t1), TupleT(t2)) =>
+	  			let fun aux(ps, acc) =
+					case ps of
+						[] => TupleT(acc)
+				      | (p1, p2)::rest => aux(rest, acc@[typlst_to_typ([p1, p2])])
+				in
+					(* raises UnequalLengths with zipEq *)
+					aux(ListPair.zipEq(t1, t2), [])
+					handle UnequalLengths => TupleT([Datatype ""])
+				end
+	      | (z1, z2) => case z1 = z2 of true => z1 | false => Datatype "" )
+	Anything typs
+
+(* Helper function: converts a typ to a typ option *)
+fun typop t =
+	case t of
+		Datatype "" => NONE
+	  | TupleT(typlst) =>
+	  		let fun find ts =
+				case ts of [] => SOME t | head::rest =>
+					case typop head of NONE => NONE | _ => find rest
+			in find typlst
+			end
+	  | _ => SOME t
+
 (* ((string * string * typ) list) * (pattern list) -> typ option) *)
-val typecheck_patterns = fn _ => NONE
+fun typecheck_patterns (conslst, patlst) = 
+	(typop o typlst_to_typ o patlst_to_typlst) (conslst, patlst, [])
 
 (* Xingjian Xuanyuan *)
