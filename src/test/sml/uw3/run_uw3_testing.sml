@@ -78,9 +78,21 @@ end = struct
         in
 			( UnitTesting.enter("only_capitals")
 				; assert_only_capitals(["A","B","C"], ["A","B","C"])
-				
-
-                (* add additional tests here *)
+				; assert_only_capitals(["By yon bonnie banks",
+                                        "Loch Lomond"],
+                                       ["By yon bonnie banks", 
+                                        "and by yon bonnie braes",
+                                        "where the sun shines bright on",
+                                        "Loch Lomond"])
+                ; assert_only_capitals(["O ye'll tak' the high road",
+                                        "An' I'll be in Scotland afore ye"],
+                                       ["O ye'll tak' the high road",
+                                        "and I'll tak' the low road",
+                                        "An' I'll be in Scotland afore ye"])
+                ; assert_only_capitals([],
+                                       ["but me and my true love",
+                                        "will never meet again",
+                                        "on the bonnie, bonnie banks o' Loch Lomond"])
 
 			; UnitTesting.leave() )
         end
@@ -97,9 +109,28 @@ end = struct
         in
 			( UnitTesting.enter("longest_string1")
 				; assert_longest_string1("bc", ["A","bc","C"])
-				
-
-                (* add additional tests here *)
+				; assert_longest_string1("On the bonnie, bonnie banks",
+                                        ["Where me and my true love",
+                                         "were ever wont to gae",
+                                         "On the bonnie, bonnie banks",
+                                         "of Loch Lomond"])
+                ; assert_longest_string1("parted in yon shady glen",
+                                        ["We'll meet where we",
+                                         "parted in yon shady glen",
+                                         "On the steep, steep side",
+                                         "o' Ben Lomond."])
+                ; assert_longest_string1("hue the Hieland hills we",
+                                        ["Where in purple",
+                                         "hue the Hieland hills we",
+                                         "view, and the moon looks",
+                                         "out frae the gloamin."])
+                ; assert_longest_string1("An' in sunshine the water are sleepin;",
+                                        ["The wild birdies sing and",
+                                         "the wild flowers spring",
+                                         "An' in sunshine the water are sleepin;",
+                                         "But the broken heart it kens,",
+                                         "nae second spring, Tho' the waefu'",
+                                         "may cease frae their greetin'!"])
 
 			; UnitTesting.leave() )
         end
@@ -115,9 +146,28 @@ end = struct
         in
 			( UnitTesting.enter("longest_string2")
 				; assert_longest_string2("bc", ["A","bc","C"])
-				
-
-                (* add additional tests here *)
+                ; assert_longest_string2("On the bonnie, bonnie banks",
+                                        ["Where me and my true love",
+                                         "were ever wont to gae",
+                                         "On the bonnie, bonnie banks",
+                                         "of Loch Lomond"])
+                ; assert_longest_string2("On the steep, steep side",
+                                        ["We'll meet where we",
+                                         "parted in yon shady glen",
+                                         "On the steep, steep side",
+                                         "o' Ben Lomond."])
+                ; assert_longest_string2("view, and the moon looks",
+                                        ["Where in purple",
+                                         "hue the Hieland hills we",
+                                         "view, and the moon looks",
+                                         "out frae the gloamin."])
+                ; assert_longest_string2("An' in sunshine the water are sleepin;",
+                                        ["The wild birdies sing and",
+                                         "the wild flowers spring",
+                                         "An' in sunshine the water are sleepin;",
+                                         "But the broken heart it kens,",
+                                         "nae second spring, Tho' the waefu'",
+                                         "may cease frae their greetin'!"])
 
 			; UnitTesting.leave() )
 		end
@@ -133,9 +183,24 @@ end = struct
         in
 			( UnitTesting.enter("longest_string3")
 				; assert_longest_string3("bc", ["A","bc","C"])
-				
-
-                (* add additional tests here *)
+				; assert_longest_string3("falling in love with",
+                                        ["Wise men say",
+                                         "Only fools rush in",
+                                         "But I can't help",
+                                         "falling in love with",
+                                         "you...Shall I stay?"])
+                ; assert_longest_string3("Some things are meant to be",
+                                        ["Like a river flows",
+                                         "Surely to the sea",
+                                         "Darling, so it goes",
+                                         "Some things are meant to be"])
+                ; assert_longest_string3("AAAAAAA",
+                                        ["AAAAAAA",
+                                         "BBBBBBB",
+                                         "CCC",
+                                         "DDDDD",
+                                         "EEEEEE",
+                                         "F"])
 
 			; UnitTesting.leave() )
 		end
@@ -151,9 +216,31 @@ end = struct
         in
 			( UnitTesting.enter("longest_string4")
 				; assert_longest_string4("C", ["A","B","C"])
-				
-
-                (* add additional tests here *)
+                ; assert_longest_string4("falling in love with",
+                                        ["Wise men say",
+                                         "Only fools rush in",
+                                         "But I can't help",
+                                         "falling in love with",
+                                         "you...Shall I stay?"])
+                ; assert_longest_string4("Some things are meant to be",
+                                        ["Like a river flows",
+                                         "Surely to the sea",
+                                         "Darling, so it goes",
+                                         "Some things are meant to be"])
+                ; assert_longest_string4("BBBBBBB",
+                                        ["AAAAAAA",
+                                         "BBBBBBB",
+                                         "CCC",
+                                         "DDDDD",
+                                         "EEEEEE",
+                                         "F"])
+                ; assert_longest_string4("FFFFFFF",
+                                        ["AAAAAAA",
+                                         "BBBBBBB",
+                                         "CCC",
+                                         "DDDDD",
+                                         "EEEEEE",
+                                         "FFFFFFF"])
 
 			; UnitTesting.leave() )
 		end
@@ -247,9 +334,19 @@ end = struct
         in
 			( UnitTesting.enter("count_wildcards")
 				; assert_count_wildcards(1, Wildcard)
-				
-
-                (* add additional tests here *)
+				; assert_count_wildcards(0, ConstP 10)
+                ; assert_count_wildcards(0, ConstructorP("Hallelujah", UnitP))
+                ; assert_count_wildcards(2, TupleP([ConstP 27, UnitP, Wildcard, Wildcard]))
+                ; assert_count_wildcards(3, TupleP([ConstP 27, 
+                                                    UnitP, 
+                                                    Wildcard,
+                                                    ConstructorP("Annie Laurie", Wildcard),
+                                                    TupleP([Wildcard, UnitP, ConstP 8])]))
+                ; assert_count_wildcards(4, TupleP([TupleP([UnitP, UnitP, ConstructorP("Greensleeves", UnitP)]), 
+                                                    TupleP([ConstructorP("Frank Sinatra", TupleP([Wildcard, ConstP 2]))]), 
+                                                    Wildcard,
+                                                    ConstructorP("Bob Marley", Wildcard),
+                                                    TupleP([Wildcard, ConstP 59, ConstP 18])]))
 
 			; UnitTesting.leave() )
 		end
@@ -265,9 +362,21 @@ end = struct
         in
 			( UnitTesting.enter("count_wild_and_variable_lengths")
 				; assert_count_wild_and_variable_lengths(1, Variable("a"))
-				
-
-                (* add additional tests here *)
+                ; assert_count_wild_and_variable_lengths(0, ConstP 10)
+                ; assert_count_wild_and_variable_lengths(String.size "Hallelujah", Variable("Hallelujah"))
+                ; assert_count_wild_and_variable_lengths(2, TupleP([ConstP 27, UnitP, Wildcard, Wildcard]))
+                ; assert_count_wild_and_variable_lengths(3 + String.size "Love Me Tender", 
+                                                         TupleP([ConstP 27, 
+                                                                 Variable("Love Me Tender"), 
+                                                                 Wildcard,
+                                                                 ConstructorP("Annie Laurie", Wildcard),
+                                                                 TupleP([Wildcard, UnitP, ConstP 8])]))
+                ; assert_count_wild_and_variable_lengths(4 + String.size "Home" + String.size "Moon River" + String.size "You and I", 
+                                                         TupleP([TupleP([UnitP, ConstructorP("Greensleeves", Variable("Home"))]), Wildcard, 
+                                                         TupleP([ConstructorP("Frank Sinatra", TupleP([Wildcard, ConstP 2]))]), 
+                                                         Variable("Moon River"),
+                                                         ConstructorP("Bob Marley", Wildcard),
+                                                         TupleP([Wildcard, ConstP 59, Variable("You and I")])]))
 
 			; UnitTesting.leave() )
 		end
@@ -283,9 +392,9 @@ end = struct
         in
 			( UnitTesting.enter("count_some_var")
 				; assert_count_some_var(1, "x", Variable("x"))
-				
-
-                (* add additional tests here *)
+                ; assert_count_some_var(0, "Danny Boy", TupleP([Wildcard, Variable("Danniel Bae")]))
+                ; assert_count_some_var(2, "Rendevouz", TupleP([Variable("Rendevouz"), Variable("Rendevouz")]))
+                ; assert_count_some_var(1, "Elvis Presley", TupleP([Variable("Presley"), ConstructorP("Elvis", Variable("Elvis Presley"))]))
 
 			; UnitTesting.leave() )
 		end
@@ -302,9 +411,23 @@ end = struct
         in
 			( UnitTesting.enter("check_pat")
 				; assert_check_pat_valid(Variable("x"))
-				
-
-                (* add additional tests here *)
+                ; assert_check_pat_valid(ConstructorP("In the bleak mid-winter", Variable("Frosty wind made moan")))
+                ; assert_check_pat_not_valid(TupleP([Variable("Earth stood hard as iron"),
+                                                     Variable("Water like a stone"),
+                                                     Variable("Snow had fallen,"),
+                                                     Variable("Snow on snow"),
+                                                     Variable("Snow on snow")]))
+                ; assert_check_pat_not_valid(TupleP([Variable("In the bleak mid-winter"),
+                                                     Variable("Long ago."),
+                                                     Variable("Our God,"),
+                                                     Variable("Heaven cannot hold Him"),
+                                                     ConstructorP("Nor earth sustain", Variable("Long ago."))]))
+                ; assert_check_pat_valid(TupleP([Variable("Heaven and earth shall flee away"),
+                                                 ConstructorP("When he comes to reign", Variable("In the bleak mid-winter")),
+                                                 Variable("A stable-place sufficed"),
+                                                 Variable("The Lord God Almighty"),
+                                                 Variable("Jesus Christ."),
+                                                 ConstructorP("Enough for Him", Variable("whom cherubim"))]))
 
 			; UnitTesting.leave() )
 		end
@@ -320,9 +443,8 @@ end = struct
         in
 			( UnitTesting.enter("match")
 				; assert_match(NONE, Const(1), UnitP)
-				
-
-                (* add additional tests here *)
+                ; assert_match(SOME[("In the bleak mid-winter", Unit)], Unit, Variable("In the bleak mid-winter"))
+                ; assert_match(NONE, Constructor("In the bleak mid-winter", Const(19)), ConstructorP("Bonnie Bonnie", UnitP))
 
 			; UnitTesting.leave() )
 		end

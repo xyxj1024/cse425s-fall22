@@ -161,8 +161,40 @@ fun score_challenge(held : card list, goal : int) : int =
       new_score(held, [], bench_mark)
    end
 
+(* Sep. 16:
+   A simple solution is to add a helper function that counts
+   the number of Aces. Use this function only if both card list
+   and move list are non-empty.
+   A tail-recursive implementation *)
+fun count_aces cards =
+   let fun aux(cs, acc) =
+      case cs of
+         [] => acc
+       | (_, Ace)::rest => aux(rest, 1 + acc)
+       | _::rest => aux(rest, acc)
+   in aux(cards, 0)
+   end
+
+fun officiate_challenge(cd : card list, mv : move list, goal : int) : int =
+   let
+      fun make_move(cd, mv, held) =
+         case (cd, mv) of
+            (_, []) => 
+               score_challenge(held, goal)
+          | ([], Draw::_) => 
+               score_challenge(held, goal)
+          | (cs, (Discard c)::ms) => 
+               make_move(cs, ms, remove_card(held, c, IllegalMove))
+          | (c::cs, Draw::ms) =>
+               if (sum_cards(c::held) - count_aces(c::held) * 10 > goal)
+               then score_challenge(c::held, goal)
+               else make_move(cs, ms, c::held)
+   in
+      make_move(cd, mv, [])
+   end
+
 (* Sep. 13: 
-   Should modify sum_cards to take into account the case of Aces *)
+   Should modify sum_cards to take into account the case of Aces.
 fun officiate_challenge(cs : card list, mv : move list, goal : int) : int =
    let fun make_move(cs, mv, held) =
       case mv of [] => held | m::ms => 
@@ -175,6 +207,7 @@ fun officiate_challenge(cs : card list, mv : move list, goal : int) : int =
    in
       score_challenge(make_move(cs, mv, []), goal)
    end
+*)
 
 (* Takes a card list and a goal and returns a move list *)
 fun careful_player(cs : card list, goal : int) : move list =
