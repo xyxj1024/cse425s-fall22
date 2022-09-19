@@ -1,0 +1,10 @@
+Group
+    structure SumDistancesToOriginTailTesting
+is
+    sum_distances_to_origin_tail_testing.sml
+    ../../../main/sml/warmup_sum_distances_to_origin_tail/sum_distances_to_origin_tail.cm
+    ../sum_distances_to_origin_testing_core/sum_distances_to_origin_testing.cm
+    ../unit_testing/unit_testing.cm
+    $/basis.cm
+    $/smlnj-lib.cm
+
