@@ -69,7 +69,7 @@ end = struct
                 NONE => print(s)
         | SOME(path) =>
             let 
-                val ostream = TextIO.openAppend path
+                val ostream = TextIO.openOut path
                 val _ = TextIO.output (ostream, s) handle e => (TextIO.closeOut ostream; raise e)
                 val _ = TextIO.closeOut ostream
             in 
