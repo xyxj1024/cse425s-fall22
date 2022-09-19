@@ -26,6 +26,8 @@ end = struct
 	fun text_from_message_option(NONE) = "<unspecified>"
 	|   text_from_message_option(SOME message) = message
 
+    val is_append = ref(false)
+
     fun getOutFilePath() =
         CommandLineArgs.getStringOption("outFilePath")
 
@@ -69,14 +71,14 @@ end = struct
                 NONE => print(s)
         | SOME(path) =>
             let 
-                val ostream = TextIO.openOut path
+                val open_function = if !is_append then TextIO.openAppend else TextIO.openOut
+                val ostream = open_function(path)
+                val _ = is_append := true
                 val _ = TextIO.output (ostream, s) handle e => (TextIO.closeOut ostream; raise e)
                 val _ = TextIO.closeOut ostream
             in 
                 ()
             end
-
-
 
     fun on_success(message_option : string option, result_detail : string) : unit =
         output( "    test case: " ^ text_from_message_option(message_option) ^ "\n      success: " ^ result_detail ^ "\n\n")
