@@ -33,9 +33,15 @@ import immutable.list.util.core.ImList;
  */
 public class Reverse {
 
+	private static <E> ImList<E> aux(ImList<E> old, ImList<E> acc) {
+		if (old.isEmpty()) {
+			return acc;
+		} else {
+			return aux(old.tail(), cons(old.head(), acc));
+		}
+	}
+
 	public static <E> ImList<E> reverse(ImList<E> list) {
-
-		throw new NotYetImplementedException();
-
+		return aux(list, nil());
 	}
 }
