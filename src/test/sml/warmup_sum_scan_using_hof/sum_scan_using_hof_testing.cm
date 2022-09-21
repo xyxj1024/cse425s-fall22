@@ -1,0 +1,9 @@
+Group
+    structure SumScanUsingHofTesting
+is
+    sum_scan_using_hof_testing.sml
+    ../sum_scan_testing_core/sum_scan_testing.cm
+    ../../../main/sml/warmup_sum_scan_using_hof/sum_scan_using_hof.cm
+    ../unit_testing/unit_testing.cm
+    $/basis.cm
+    $/smlnj-lib.cm

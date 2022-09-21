@@ -1,0 +1,6 @@
+Group
+    structure SumScanUsingHof
+is
+    sum_scan_using_hof.sml
+    $/basis.cm
+    $/smlnj-lib.cm
