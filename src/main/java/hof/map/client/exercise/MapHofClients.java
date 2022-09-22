@@ -41,9 +41,7 @@ public class MapHofClients {
 	 * @return the lengths of the specified texts
 	 */
 	public static ImList<Integer> mapToLengths(ImList<String> texts) {
-
-		throw new NotYetImplementedException();
-
+		return MapHof.map(x -> x.length(), texts);
 	}
 
 	/**
@@ -64,8 +62,6 @@ public class MapHofClients {
 	 *         or not
 	 */
 	public static ImList<Boolean> mapToStrictlyLessThan(ImList<Integer> xs, int threshold) {
-
-		throw new NotYetImplementedException();
-
+		return MapHof.map(x -> x < threshold, xs);
 	}
 }

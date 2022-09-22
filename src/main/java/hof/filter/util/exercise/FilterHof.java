@@ -30,7 +30,7 @@ import edu.wustl.cse.cosgroved.NotYetImplementedException;
 import immutable.list.util.core.ImList;
 
 /**
- * @author __STUDENT_NAME__
+ * @author Xingjian Xuanyuan
  * @author Dennis Cosgrove (http://www.cse.wustl.edu/~cosgroved/)
  */
 public class FilterHof {
@@ -50,8 +50,14 @@ public class FilterHof {
 	 * @return a list consisting of the elements which pass the predicate's test
 	 */
 	public static <E> ImList<E> filter(Predicate<E> predicate, ImList<E> list) {
-
-		throw new NotYetImplementedException();
-
+		if (list.isEmpty()) {
+			return nil();
+		} else {
+			if (predicate.test(list.head())) {
+				return cons(list.head(), filter(predicate, list.tail()));
+			} else {
+				return filter(predicate, list.tail());
+			}
+		}
 	}
 }

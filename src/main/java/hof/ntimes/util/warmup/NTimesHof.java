@@ -26,13 +26,15 @@ import java.util.function.Function;
 import edu.wustl.cse.cosgroved.NotYetImplementedException;
 
 /**
- * @author __STUDENT_NAME__
+ * @author Xingjian Xuanyuan
  * @author Dennis Cosgrove (http://www.cse.wustl.edu/~cosgroved/)
  */
 public class NTimesHof {
 	public static <T> T nTimes(Function<T, T> f, int n, T x) {
-
-		throw new NotYetImplementedException();
-
+		if (n == 0) {
+			return x;
+		} else {
+			return f.apply(nTimes(f, n - 1, x));
+		}
 	}
 }

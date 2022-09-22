@@ -27,26 +27,41 @@ import edu.wustl.cse.cosgroved.NotYetImplementedException;
 import immutable.list.util.core.ImList;
 
 /**
- * @author __STUDENT_NAME__
+ * @author Xingjian Xuanyuan
  * @author Dennis Cosgrove (http://www.cse.wustl.edu/~cosgroved/)
  */
 public class Any {
 	public static boolean any(boolean... values) {
-
-		throw new NotYetImplementedException();
-
+		for (boolean value: values) {
+			if (value) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static boolean any(ImList<Boolean> values) {
-
-		throw new NotYetImplementedException();
-
+		if (values.isEmpty()) {
+			return false;
+		} else {
+			if (values.head()) {
+				return true;
+			} else {
+				return any(values.tail());
+			}
+		}
 	}
 
 	public static <T> boolean any(Predicate<T> predicate, ImList<T> values) {
-
-		throw new NotYetImplementedException();
-
+		if (values.isEmpty()) {
+			return false;
+		} else {
+			if (predicate.test(values.head())) {
+				return true;
+			} else {
+				return any(predicate, values.tail());
+			}
+		}
 	}
 
 }

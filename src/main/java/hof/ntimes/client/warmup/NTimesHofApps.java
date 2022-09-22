@@ -26,25 +26,21 @@ import hof.ntimes.util.warmup.NTimesHof;
 import immutable.list.util.core.ImList;
 
 /**
- * @author __STUDENT_NAME__
+ * @author Xingjian Xuanyuan
  * @author Dennis Cosgrove (http://www.cse.wustl.edu/~cosgroved/)
  */
 public class NTimesHofApps {
+	
 	public static int incrementNTimes(int n, int x) {
-
-		throw new NotYetImplementedException();
-
+		return NTimesHof.nTimes(y -> y + 1, n, x);
 	}
 
 	public static int doubleNTimes(int n, int x) {
-
-		throw new NotYetImplementedException();
-
+		return NTimesHof.nTimes(y -> y + y, n, x);
 	}
 
 	public static <E> ImList<E> nthTail(int n, ImList<E> x) {
-
-		throw new NotYetImplementedException();
-
+		return NTimesHof.nTimes(y -> y.tail(), n, x);
 	}
+	
 }

@@ -26,19 +26,20 @@ import hof.fold.util.exercise.FoldHof;
 import immutable.list.util.core.ImList;
 
 /**
- * @author __STUDENT_NAME__
+ * @author Xingjian Xuanyuan
  * @author Dennis Cosgrove (http://www.cse.wustl.edu/~cosgroved/)
  */
 public class FoldHofClients {
 	public static int sum(ImList<Integer> xs) {
-
-		throw new NotYetImplementedException();
-
+		return FoldHof.foldLeft((acc, head) -> acc + head, 0, xs);
 	}
 
 	public static int countBetweenMinAndMaxExclusive(int min, int maxExclusive, ImList<Integer> xs) {
-
-		throw new NotYetImplementedException();
-
+		return FoldHof.foldLeft((acc, head) -> acc + ifBetween(min, maxExclusive, head), 0, xs);
+	}
+	
+	public static int ifBetween(int min, int maxExclusive, int val) {
+		if (val < maxExclusive && val >= min) return 1;
+		else return 0;
 	}
 }

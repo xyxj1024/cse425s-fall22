@@ -27,19 +27,23 @@ import edu.wustl.cse.cosgroved.NotYetImplementedException;
 import immutable.list.util.core.ImList;
 
 /**
- * @author __STUDENT_NAME__
+ * @author Xingjian Xuanyuan
  * @author Dennis Cosgrove (http://www.cse.wustl.edu/~cosgroved/)
  */
 public class FoldHof {
 	public static <A, B> A foldLeft(BiFunction<A, B, A> f, A acc, ImList<B> list) {
-
-		throw new NotYetImplementedException();
-
+		if (list.isEmpty()) {
+			return acc;
+		} else {
+			return foldLeft(f, f.apply(acc, list.head()), list.tail());
+		}
 	}
 
 	public static <A, B> A foldRight(BiFunction<A, B, A> f, A acc, ImList<B> list) {
-
-		throw new NotYetImplementedException();
-
+		if (list.isEmpty()) {
+			return acc;
+		} else {
+			return f.apply(foldRight(f, acc, list.tail()), list.head());
+		}
 	}
 }

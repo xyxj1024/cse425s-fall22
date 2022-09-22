@@ -73,6 +73,8 @@ public class FoldBetweenTest {
 		result.add(new Object[] { 100, 300, brackets(231, 425), 1 });
 		result.add(new Object[] { 100, 500, brackets(231, 425), 2 });
 		result.add(new Object[] { 2, 4, brackets(1, 2, 3, 4), 2 });
+		result.add(new Object[] { 2, 5, brackets(1, 2, 3, 4), 3 });
+		result.add(new Object[] { 4, 6, brackets(1, 2, 3, 4), 1 });
 		return result;
 	}
 }

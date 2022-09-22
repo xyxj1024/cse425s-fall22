@@ -26,11 +26,19 @@ import hof.filter.util.exercise.FilterHof;
 import immutable.list.util.core.ImList;
 
 /**
- * @author __STUDENT_NAME__
+ * @author Xingjian Xuanyuan
  * @author Dennis Cosgrove (http://www.cse.wustl.edu/~cosgroved/)
  */
 public class FilterHofClients {
 	private static char[] LOWER_CASE_VOWELS = "aeiou".toCharArray();
+	
+	public static boolean ifContains(String word) {
+		for (char v : LOWER_CASE_VOWELS) {
+			if (word.contains(Character.toString(v))) continue;
+			else return false;
+		}
+		return true;
+	}
 
 	/**
 	 * Creates and returns a list whose contents are the filtered result of the
@@ -44,9 +52,8 @@ public class FilterHofClients {
 	 * @return the filtered list of specified words which contain each of the vowels
 	 */
 	public static ImList<String> filterWordsWhichContainAllVowels(ImList<String> words) {
-
-		throw new NotYetImplementedException();
-
+		return FilterHof.filter(word -> ifContains(word), words);
+			
 	}
 
 	/**
@@ -61,8 +68,6 @@ public class FilterHofClients {
 	 * @return the filtered list of specified integers which are even
 	 */
 	public static ImList<Integer> filterEvens(ImList<Integer> xs) {
-
-		throw new NotYetImplementedException();
-
+		return FilterHof.filter(x -> (x % 2 == 0), xs);
 	}
 }

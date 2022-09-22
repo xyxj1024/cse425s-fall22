@@ -28,7 +28,7 @@ import hof.find.util.exercise.FindHof;
 import immutable.list.util.core.ImList;
 
 /**
- * @author __STUDENT_NAME__
+ * @author Xingjian Xuanyuan
  * @author Dennis Cosgrove (http://www.cse.wustl.edu/~cosgroved/)
  */
 public class FindHofClients {
@@ -46,8 +46,28 @@ public class FindHofClients {
 	 * @return the filtered list of specified words which contain each of the vowels
 	 */
 	public static Optional<String> findFirstPalindrome(ImList<String> words) {
-
-		throw new NotYetImplementedException();
-
+		return FindHof.find(word -> isPalindrome(word), words);
+	}
+	
+	/** 
+	 * This helper function borrows from:
+	 * https://docs.oracle.com/javase/tutorial/java/data/strings.html
+	 */
+	public static boolean isPalindrome(String old_str) {
+		int len = old_str.length();
+		char[] old_arr = new char[len];
+		char[] rev_arr = new char[len];
+		
+		for (int i = 0; i < len; i++) {
+			old_arr[i] = old_str.charAt(i);
+		}
+		
+		for (int j = 0; j < len; j++) {
+			rev_arr[j] = old_arr[len - 1 - j];
+		}
+		
+		String rev_str = new String(rev_arr);
+		
+		return (rev_str.equals(old_str));
 	}
 }

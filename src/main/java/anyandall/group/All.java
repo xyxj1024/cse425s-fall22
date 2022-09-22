@@ -27,25 +27,40 @@ import edu.wustl.cse.cosgroved.NotYetImplementedException;
 import immutable.list.util.core.ImList;
 
 /**
- * @author __STUDENT_NAME__
+ * @author Xingjian Xuanyuan
  * @author Dennis Cosgrove (http://www.cse.wustl.edu/~cosgroved/)
  */
 public class All {
 	public static boolean all(boolean... values) {
-
-		throw new NotYetImplementedException();
-
+		for (boolean value : values) {
+			if (!value) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public static boolean all(ImList<Boolean> values) {
-
-		throw new NotYetImplementedException();
-
+		if (values.isEmpty()) {
+			return true;
+		} else {
+			if (values.head()) {
+				return all(values.tail());
+			} else {
+				return false;
+			}
+		}
 	}
 
 	public static <T> boolean all(Predicate<T> predicate, ImList<T> values) {
-
-		throw new NotYetImplementedException();
-
+		if (values.isEmpty()) {
+			return true;
+		} else {
+			if (predicate.test(values.head())) {
+				return all(predicate, values.tail());
+			} else {
+				return false;
+			}
+		}
 	}
 }

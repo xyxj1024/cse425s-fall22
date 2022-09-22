@@ -30,7 +30,7 @@ import edu.wustl.cse.cosgroved.NotYetImplementedException;
 import immutable.list.util.core.ImList;
 
 /**
- * @author __STUDENT_NAME__
+ * @author Xingjian Xuanyuan
  * @author Dennis Cosgrove (http://www.cse.wustl.edu/~cosgroved/)
  */
 public class MapHof {
@@ -50,8 +50,10 @@ public class MapHof {
 	 * @return a list of the mapped results.
 	 */
 	public static <T, R> ImList<R> map(Function<T, R> f, ImList<T> list) {
-
-		throw new NotYetImplementedException();
-
+		if (list.isEmpty()) {
+			return nil();
+		} else {
+			return cons(f.apply(list.head()), map(f, list.tail()));
+		}
 	}
 }

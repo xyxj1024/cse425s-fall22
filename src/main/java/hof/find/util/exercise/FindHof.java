@@ -28,7 +28,7 @@ import edu.wustl.cse.cosgroved.NotYetImplementedException;
 import immutable.list.util.core.ImList;
 
 /**
- * @author __STUDENT_NAME__
+ * @author Xingjian Xuanyuan
  * @author Dennis Cosgrove (http://www.cse.wustl.edu/~cosgroved/)
  */
 public class FindHof {
@@ -46,8 +46,14 @@ public class FindHof {
 	 * @return Optional of the item, if found. Otherwise, empty.
 	 */
 	public static <E> Optional<E> find(Predicate<E> predicate, ImList<E> list) {
-
-		throw new NotYetImplementedException();
-
+		if (list.isEmpty()) {
+			return Optional.empty();
+		} else {
+			if (predicate.test(list.head())) {
+				return Optional.of(list.head());
+			} else {
+				return find(predicate, list.tail());
+			}
+		}
 	}
 }
