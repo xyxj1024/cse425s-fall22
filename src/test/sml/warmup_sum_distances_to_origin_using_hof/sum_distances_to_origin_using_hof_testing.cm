@@ -1,0 +1,10 @@
+Group
+    structure SumDistancesToOriginUsingHigherOrderFunctionsTesting
+is
+    sum_distances_to_origin_using_hof_testing.sml
+    ../../../main/sml/warmup_sum_distances_to_origin_using_hof/sum_distances_to_origin_using_hof.cm
+    ../sum_distances_to_origin_testing_core/sum_distances_to_origin_testing.cm
+    ../unit_testing/unit_testing.cm
+    $/basis.cm
+    $/smlnj-lib.cm
+
