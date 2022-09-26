@@ -11,7 +11,10 @@ end = struct
             handle raised_exception => 
                 if exnName(raised_exception)=expected_exception_name
                 then UnitTesting.on_success(message_option, "as expected, " ^ expected_exception_name ^ " raised.")
-                else UnitTesting.on_failure(message_option, "exception " ^ expected_exception_name ^ " raised.", "exception " ^ exnName(raised_exception) ^ " raised.")
+                else 
+                    if exnName(raised_exception)="AssertionFailure"
+                    then raise raised_exception
+                    else UnitTesting.on_failure(message_option, "exception " ^ expected_exception_name ^ " raised.", "exception " ^ exnName(raised_exception) ^ " raised.")
         end
 
     fun assertRaisesExceptionWithMessage(zero_arg_function, expected_exception, message) = 
