@@ -1,0 +1,11 @@
+Group
+    structure SpreadsheetTesting
+    structure CellTesting
+is
+    spreadsheet_testing.sml
+    cell_testing.sml
+    ../../../main/sml/spreadsheet/csv.cm
+    ../../../main/sml/spreadsheet/spreadsheet.cm
+    ../unit_testing/unit_testing.cm
+    $/basis.cm
+    $/smlnj-lib.cm
