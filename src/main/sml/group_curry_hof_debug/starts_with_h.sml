@@ -7,18 +7,11 @@ val r = String.sub(name, 1)
 val e = String.sub(name, 2)
 val d = String.sub(name, 3)
 
-
-(* TODO *)
-(* https://smlfamily.github.io/Basis/list.html *)
-
-
 (* syntax for character literal *)
 val letter_h = #"h"
 
 (* TODO *)
-val starts_with_h = ()
-
-
+val starts_with_h = List.filter (fn name => String.sub(name, 0) = letter_h)
 
 val names = ["fred", "george", "ron", "hermione", "neville", "luna", "harry", "ginny", "hagrid"]
 val expected = ["hermione", "harry", "hagrid"]
