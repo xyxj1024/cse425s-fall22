@@ -1,5 +1,12 @@
 structure ScanHof = struct
-	(* __STUDENT_NAME__ *)
+	(* Xingjian Xuanyuan *)
 	fun scan operation values =
-		raise Fail "NotYetImplemented"
+		let fun scan(acc, lst) =
+			case (acc, lst) of
+				(acc, []) => acc
+			  | ([], head::rest) => scan([head], rest)
+			  | (y::ys, head::rest) => scan(operation(y, head)::y::ys, rest)
+		in
+			List.rev(scan([], values))
+		end
 end
