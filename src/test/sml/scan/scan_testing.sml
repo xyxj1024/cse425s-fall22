@@ -2,7 +2,10 @@ structure ScanTesting :> sig
     val test_scan : unit -> unit
 end = struct
 	structure SumScanViaCurriedScanTesting = SumScanTestingFn (struct
-		val function = ScanHof.scan op+
+		(* val function = ScanHof.scan op+ *)
+		(* function wrap necessitated by value restriction *)
+		fun function(values) = 
+			ScanHof.scan op+ values
 		val function_name = "scan op+"
 		val is_curried = true
 	end)
