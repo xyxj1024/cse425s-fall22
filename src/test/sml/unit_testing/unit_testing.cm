@@ -1,6 +1,7 @@
 Group
     structure UnitTesting
     structure ListStrictness
+	structure CompletionTesting
 	structure ExceptionTesting
 	structure BoolTesting
 	structure RealTesting
@@ -14,6 +15,7 @@ Group
 is
     unit_testing.sml
     list_strictness.sml
+    completion_testing.sml
     exception_testing.sml
     bool_testing.sml
     real_testing.sml

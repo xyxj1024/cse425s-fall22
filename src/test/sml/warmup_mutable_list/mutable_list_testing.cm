@@ -1,0 +1,8 @@
+Group
+    structure MutableListTesting
+is
+    mutable_list_testing.sml
+    ../../../main/sml/warmup_mutable_list/mutable_list.cm
+    ../unit_testing/unit_testing.cm
+    $/basis.cm
+    $/smlnj-lib.cm

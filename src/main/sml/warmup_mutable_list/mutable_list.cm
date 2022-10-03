@@ -1,0 +1,6 @@
+Library
+    structure MutableList
+is
+    mutable_list.sml
+    $/basis.cm
+    $/smlnj-lib.cm
