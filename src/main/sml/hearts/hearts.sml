@@ -28,7 +28,7 @@ structure Hearts = struct
               else false
 
   fun card_score(c : card) : int =
-      (* let val (s, r) = c
+   (* let val (s, r) = c
       in
           case s of
               Spades => if r = Queen then 13 else 0

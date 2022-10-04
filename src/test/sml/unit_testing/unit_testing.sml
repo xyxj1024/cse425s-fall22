@@ -86,8 +86,8 @@ end = struct
     fun on_failure(message_option : string option, expected_detail : string, actual_detail : string) : unit = 
         let
             val a = "!!!        test case: " ^ text_from_message_option(message_option) ^ "\n"
-            val b = "!!! ASSERION FAILURE: expected: " ^ expected_detail ^ "\n"
-            val c = "!!!                     actual: " ^ actual_detail ^ "\n"
+            val b = "!!! ASSERTION FAILURE: expected: " ^ expected_detail ^ "\n"
+            val c = "!!!                      actual: " ^ actual_detail ^ "\n"
         in 
             (
             output( "!!!!!! ASSERTION FAILURE !!!!!!\n!!!\n!!!\n" ^ a ^ b ^ c ^ "!!!\n!!!\n!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n" ) 
