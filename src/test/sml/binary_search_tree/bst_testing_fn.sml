@@ -172,7 +172,7 @@ end = struct
                     (* TODO: output code for BST debug *)
                     val actual_detail = EqTesting.toStringFromList(actual_list)
                 in
-                    UnitTesting.on_failure(SOME test_case_detail, expected_detail, EqTesting.toStringFromList(expected_list) ^ 
+                    UnitTesting.on_failure(SOME test_case_detail, expected_detail, actual_detail ^ 
                     "\n!!!\n!!! v v v text for debug v v v \n\n\n" ^ to_debug(original_list) ^ "\n\n!!!")
                 end
         end
