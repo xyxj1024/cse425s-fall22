@@ -1,0 +1,9 @@
+Group
+    structure MacroBstTesting
+is
+    bst_testing_fn.sml
+    macro_bst_testing.sml
+    ../../../main/sml/binary_search_tree/binary_search_tree.cm
+    ../unit_testing/unit_testing.cm
+    $/basis.cm
+    $/smlnj-lib.cm
