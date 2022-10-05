@@ -219,12 +219,12 @@ end = struct
             if expected_values_post_remove = actual_values_post_remove
             then UnitTesting.on_success(NONE, "equals: " ^ EqTesting.toStringFromList(expected_values_post_remove))
             else 
-                (* let
+                let
                     val original_tree_string = BinarySearchTree.debug_message(item_to_string, original_tree)
                     val actual_tree_string = BinarySearchTree.debug_message(item_to_string, actual_tree_post_remove)
                 in
                     UnitTesting.on_failure(NONE, item_list_to_string(expected_values_post_remove), item_list_to_string(actual_values_post_remove) ^ "\n!!!                    assertInsertAllInOrderFollowedByRemove(" ^ item_list_to_string(values) ^ ", " ^ item_to_string(value_to_remove) ^ ")\n!!!                    original tree: " ^ original_tree_string ^ "\n!!!                    post remove tree: " ^ actual_tree_string)
-                end *)
+                end
                 UnitTesting.on_failure(NONE, "TODO", "TODO")
         end
 

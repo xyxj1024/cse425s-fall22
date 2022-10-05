@@ -186,32 +186,35 @@ structure MutableList = struct
 				end
 		end
 
-	fun do_remove_arbitrary(mlist : 'a mutable_list) : unit =
+	fun do_remove_arbitrary(mlist : 'a mutable_list) : ('a mutable_list * 'a option ref) =
 		let
 			val (ref_lst, ref_len) = !mlist
+			val res = ref NONE
 			(* 'a item ref * int -> 'a item ref *)
-			fun remove_helper(ref Nil, _) = ref Nil
-		      | remove_helper(ref (Cons(x, xs)), 0) = xs
-			  | remove_helper(ref (Cons(x, xs)), i) = 
-				ref (Cons(x, remove_helper(xs, i - 1)))
+			fun remove_helper(l, i) = 
+				case !l of
+					Nil	=> ref Nil
+		         | Cons(h, t) =>
+					if i = 0
+					then (res := SOME h; t)
+					else ref (Cons(h, remove_helper(t, i - 1)))
 		in
-			mlist := (remove_helper(ref_lst, rand_idx(mlist)), ref_len)
+			(ref (remove_helper(ref_lst, rand_idx(mlist)), ref_len), res)
 		end
 	
 	fun remove_arbitrary(mlist : 'a mutable_list) : 'a option =
 		let
-			val (ref_lst, ref_len) = !mlist
 			(* ('a item ref * int) -> 'a option ref *)
-			fun locate_helper(l, i) =
+			(* fun locate_helper(l, i) =
 				case !l of
 					Nil => NONE
 				  | Cons(h, t) =>
 						case i of
 							0 => SOME h
-						  | i => locate_helper(t, i - 1)
-			(* do_remove_arbitrary(mlist) *)
+						  | i => locate_helper(t, i - 1) *)
+			val (updated_list, removed_val) = do_remove_arbitrary(mlist)
 		in
-			locate_helper(ref_lst, rand_idx(mlist))
+			(mlist := !updated_list; !removed_val)
 		end
 
 	fun construct_with_parrot(parrot) : parrot mutable_list =
