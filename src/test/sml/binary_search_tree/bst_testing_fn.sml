@@ -7,7 +7,8 @@ functor BstTestingFn (
         val to_key : entry -> key
         val to_string_from_key : key -> string
         val to_string_from_entry : entry -> string
-        val to_debug : entry list -> string
+        val debug_compare_text : unit -> string
+        val debug_to_s_text : unit -> string
     end
 ) : sig
     val test_bare_minimum_implemented : BstTestingParam.entry -> unit
@@ -160,6 +161,16 @@ end = struct
         in
             !output
         end
+    
+    fun to_debug(xs) = 
+        let
+            val init = "val bst = BinarySearchTree.create_empty(" ^ debug_compare_text() ^ ", fn(v)=>v)\n" 
+            fun f(x, acc) = 
+                acc ^ "val (bst,_) = BinarySearchTree.insert(bst, " ^ EqTesting.toString(x) ^ ")\n"
+        in
+            List.foldl f init xs
+        end
+
 
     fun assertInsertAll(original_list : entry list) : unit = 
         let
@@ -179,7 +190,7 @@ end = struct
                         val actual_detail = EqTesting.toStringFromList(actual_list)
                     in
                         UnitTesting.on_failure(SOME test_case_detail, expected_detail, actual_detail ^ 
-                        "\n!!!\n!!! v v v text for debug v v v \n\n\n" ^ to_debug(original_list) ^ "\n\n!!!")
+                        "\n!!!\n!!! v v v text for debug v v v \n\n\n" ^ to_debug(original_list) ^ "\n\nval identity = " ^ debug_to_s_text() ^ "\n\n!!!")
                     end
         in
             UnitTesting.leave()

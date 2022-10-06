@@ -6,8 +6,11 @@ structure IntBstTesting = BstTestingFn(struct
 	val to_string_from_key = IntTesting.toString
 	val to_string_from_entry = IntTesting.toString
 	val assert_option_entry_eval_equals = IntTesting.assertOptionEvalEqualsWithMessage
-	fun to_debug(xs) =
-		"IntBstDebug.insertAll(" ^ IntTesting.toStringFromList(xs) ^ ")"
+    fun debug_compare_text() = 
+		"Int.compare"
+
+    fun debug_to_s_text() = 
+		"Int.toString"
 end)
 
 structure StringBstTesting = BstTestingFn(struct
@@ -18,8 +21,12 @@ structure StringBstTesting = BstTestingFn(struct
 	val to_string_from_key = StringTesting.toString
 	val to_string_from_entry = StringTesting.toString
 	val assert_option_entry_eval_equals = StringTesting.assertOptionEvalEqualsWithMessage
-	fun to_debug(xs) =
-		"StringBstDebug.insertAll(" ^ StringTesting.toStringFromList(xs) ^ ")"
+    fun debug_compare_text() = 
+		"String.compare"
+
+    fun debug_to_s_text() = 
+		"fn(s)=>s"
+
 end)
 
 structure MacroBstTesting = struct
