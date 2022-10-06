@@ -35,6 +35,9 @@ end = struct
     fun assert_fold_rnl_completion(bst, bst_binding, exception_note) =
 		CompletionTesting.assertEvalCompletionWithMessageAndExceptionNote(fn()=>BinarySearchTree.fold_rnl(op::, [], bst) , "fold_rnl(op::, [], " ^ bst_binding ^ ")", exception_note)
 
+    fun assert_remove_completion(bst, key, bst_binding, exception_note) =
+		CompletionTesting.assertEvalCompletionWithMessageAndExceptionNote(fn()=>BinarySearchTree.remove(bst, key), "remove(" ^ bst_binding ^ ", " ^ to_string_from_key(key) ^ ")", exception_note)
+
     fun test_implemented(entry, exception_note) = 
         let
             val bst = assert_create_empty_completion(compare_keys, to_key, exception_note) 
@@ -118,16 +121,18 @@ end = struct
 
     fun insertAll(xs) =
         let 
+            val exception_note = ""
+            val bst = assert_create_empty_completion(compare_keys, to_key, exception_note)
             fun helper(xs, acc) =
                 case xs of
                         [] => acc
                 | x :: xs' => let
-                                val (acc,_) = BinarySearchTree.insert(acc, x)
+                                val (acc,_) = assert_insert_completion(acc, x, "bst_from_previous_line", exception_note)
                               in
                                 helper(xs', acc)
                               end
         in
-            helper(xs, BinarySearchTree.create_empty(compare_keys, to_key))
+            helper(xs, bst)
         end
 
     fun remove_random(xs : entry list, r : Random.rand) : (entry*(entry list)) = 
@@ -158,39 +163,33 @@ end = struct
 
     fun assertInsertAll(original_list : entry list) : unit = 
         let
+            val _ = UnitTesting.enter("assertInsertAll(" ^ EqTesting.toStringFromList(original_list) ^ ")")
             val expected_list : entry list = (ListMergeSort.uniqueSort compare_entries original_list)
             val actual_tree = insertAll(original_list)
             val actual_list : entry list = bst_to_list(actual_tree)
 
-            val test_case_detail = "assertInsertAll(" ^ EqTesting.toStringFromList(original_list) ^ ")"
+            val test_case_detail = "bst_to_list(bst_from_previous_line)"
             val expected_detail = EqTesting.toStringFromList(expected_list)
+            val _ = 
+                if expected_list = actual_list
+                then UnitTesting.on_success(SOME test_case_detail, "as expected, equals: " ^ expected_detail)
+                else 
+                    let
+                        (* TODO: output code for BST debug *)
+                        val actual_detail = EqTesting.toStringFromList(actual_list)
+                    in
+                        UnitTesting.on_failure(SOME test_case_detail, expected_detail, actual_detail ^ 
+                        "\n!!!\n!!! v v v text for debug v v v \n\n\n" ^ to_debug(original_list) ^ "\n\n!!!")
+                    end
         in
-            if expected_list = actual_list
-            then UnitTesting.on_success(SOME test_case_detail, "as expected, equals: " ^ expected_detail)
-            else 
-                let
-                    (* TODO: output code for BST debug *)
-                    val actual_detail = EqTesting.toStringFromList(actual_list)
-                in
-                    UnitTesting.on_failure(SOME test_case_detail, expected_detail, EqTesting.toStringFromList(expected_list) ^ 
-                    "\n!!!\n!!! v v v text for debug v v v \n\n\n" ^ to_debug(original_list) ^ "\n\n!!!")
-                end
+            UnitTesting.leave()
         end
 
     fun assertInsertAllInRandomOrder(original_list: entry list, r : Random.rand) : unit = 
         let
-            val input = ref original_list
-            val output = ref []
+            val shuffled = shuffle(original_list, r)
         in
-            while List.length(!input) > 0 do
-                let
-                    val (v, input') = remove_random(!input, r)
-                    val _ = output := (v :: !output)
-                    val _ = input := input'
-                    val xs = !output
-                in
-                    assertInsertAll xs
-                end 
+            assertInsertAll shuffled
         end
 
     fun assertInsertAllInRandomOrderRepeatedly(n : int, original_list: entry list) : unit = 
@@ -209,23 +208,31 @@ end = struct
 
     fun assertInsertAllInOrderFollowedByRemove(values: entry list, entry_to_remove : entry) : unit = 
         let
+            val exception_note = ""
+            val _ = UnitTesting.enter("assertInsertAllInOrderFollowedByRemove(" ^ EqTesting.toStringFromList(values) ^ ", " ^ EqTesting.toString(entry_to_remove) ^ ")")
             val original_tree = insertAll(values)
-            val (actual_tree_post_remove,_) = BinarySearchTree.remove(original_tree, to_key(entry_to_remove))
+            val (actual_tree_post_remove,_) = assert_remove_completion(original_tree, to_key(entry_to_remove), "bst_from_previous_line", exception_note)
             val actual_values_post_remove = bst_to_list(actual_tree_post_remove)
 
             val values_post_remove = List.filter (fn v=> v<>entry_to_remove) values
             val expected_values_post_remove = (ListMergeSort.uniqueSort compare_entries values_post_remove)
-        in
-            if expected_values_post_remove = actual_values_post_remove
-            then UnitTesting.on_success(NONE, "equals: " ^ EqTesting.toStringFromList(expected_values_post_remove))
-            else 
-                let
+            val test_case_detail = "bst_to_list(bst_from_previous_line)"
+            val expected_detail = EqTesting.toStringFromList(expected_values_post_remove)
+            val actual_detail = EqTesting.toStringFromList(actual_values_post_remove)
+            val _ = 
+                if expected_values_post_remove = actual_values_post_remove
+                then UnitTesting.on_success(SOME test_case_detail, "equals: " ^ expected_detail)
+                else 
+                    (* let
                     val original_tree_string = BinarySearchTree.debug_message(item_to_string, original_tree)
                     val actual_tree_string = BinarySearchTree.debug_message(item_to_string, actual_tree_post_remove)
-                in
+                    in
                     UnitTesting.on_failure(NONE, item_list_to_string(expected_values_post_remove), item_list_to_string(actual_values_post_remove) ^ "\n!!!                    assertInsertAllInOrderFollowedByRemove(" ^ item_list_to_string(values) ^ ", " ^ item_to_string(value_to_remove) ^ ")\n!!!                    original tree: " ^ original_tree_string ^ "\n!!!                    post remove tree: " ^ actual_tree_string)
-                end
-                UnitTesting.on_failure(NONE, "TODO", "TODO")
+                    end *)
+                    UnitTesting.on_failure(SOME test_case_detail, expected_detail, actual_detail)
+
+        in
+            UnitTesting.leave()
         end
 
     fun assertInsertAllInRandomOrderFollowedByRemoveEachInRandomOrder(original_list: entry list, r : Random.rand) : unit = 
