@@ -50,33 +50,66 @@ structure BinarySearchTree :> BINARY_SEARCH_TREE = struct
 			((insert_helper(root), cmp, to_key), !ret)
 		end
 
-	(* The input node is the left child of the node to be removed. *)
-	(* Returns the right most descendant of this node. *)
-	fun remove_node(n : 'e node) : 'e node =
-		case n of
-			Nil => Nil
-		  | _ =>
-			let
-				val Sub (this_val, left_child, right_child) = n
-			in
-				case right_child of
-					Nil => n
-		          | Sub (v, l, r) => remove_node(r)
-			end
+	fun insert_simple(element : 'e, t : ('e,'k) tree) : ('e,'k) tree =
+		let
+			val (root, cmp, to_key) = t
+			fun insert_helper(n : 'e node) : 'e node =
+				case n of
+					Nil => Sub (element, Nil, Nil)
+				  | Sub (this_val, left_child, right_child) =>
+					case cmp(to_key(element), to_key(this_val)) of
+						GREATER => Sub (this_val, left_child, insert_helper(right_child))
+				      | LESS => Sub(this_val, insert_helper(left_child), right_child)
+				      | EQUAL => Sub(this_val, left_child, right_child)
+		in
+			(insert_helper(root), cmp, to_key)
+		end
+
+	fun remove_duplicate(n : 'e node) : 'e node =
+		let
+			val Sub (this_val, left_child, right_child) = n
+		in
+			case right_child of
+				Nil => left_child
+			  | Sub (right_child_val, right_child_left, right_child_right) =>
+			  	Sub (this_val, left_child, remove_duplicate(right_child))
+		end
 
 	fun remove(t : ('e,'k) tree, key : 'k) : (('e,'k) tree * 'e option) =
 		let
 			val (root, cmp, to_key) = t
-			fun remove_helper(n : 'e node) : (('e,'k) tree * 'e option) =
+			val to_be_removed = ref NONE
+			fun remove_helper(n : 'e node, ret : 'e option ref) : 'e node =
 				case n of
-					Nil => (t, NONE)
+					Nil => n
 				  | Sub (this_val, left_child, right_child) =>
 					case cmp(key, to_key(this_val)) of
-					GREATER => remove_helper(right_child)
-				  | LESS => remove_helper(left_child)
-				  | EQUAL => (ref n = ref (remove_node(left_child)); (t, SOME this_val))
+						GREATER => Sub (this_val, left_child, remove_helper(right_child, ret))
+				  	  | LESS => Sub (this_val, remove_helper(left_child, ret), right_child)
+				  	  | EQUAL => (* Found the node to be removed *)
+					   	   (ret := SOME this_val;
+				  			case (left_child, right_child) of
+								(Nil, Nil) => Nil (* Clear the leaf *)
+			  			  	  | (Nil, only_right) => only_right
+			  			  	  | (only_left, Nil) => only_left
+			  			  	  | _ =>
+									let
+										fun find_right(Sub (left_sub_val, left_sub_left, left_sub_right) : 'e node) : 'e node = 
+											case left_sub_right of
+												Nil => Sub (left_sub_val, left_sub_left, left_sub_right)
+				  					      	  | _ =>
+												find_right(left_sub_right)
+									in 
+										let
+											(* Find the rightmost descendant of n's left sub-tree *)
+											val Sub (new_val, new_left, new_right) = find_right(left_child)
+										in
+											Sub (new_val, remove_duplicate(left_child), right_child)
+										end
+									end)
+
 		in
-			remove_helper(root)
+			((remove_helper(root, to_be_removed), cmp, to_key), !to_be_removed)
 		end
 
 	fun to_list_lnr(n : 'e node) : 'e list =
