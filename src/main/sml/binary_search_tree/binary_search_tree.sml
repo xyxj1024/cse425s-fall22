@@ -66,14 +66,13 @@ structure BinarySearchTree :> BINARY_SEARCH_TREE = struct
 		end
 
 	fun remove_duplicate(n : 'e node) : 'e node =
-		let
-			val Sub (this_val, left_child, right_child) = n
-		in
+		case n of
+			Nil => Nil
+		  | Sub (this_val, left_child, right_child) =>
 			case right_child of
 				Nil => left_child
 			  | Sub (right_child_val, right_child_left, right_child_right) =>
 			  	Sub (this_val, left_child, remove_duplicate(right_child))
-		end
 
 	fun remove(t : ('e,'k) tree, key : 'k) : (('e,'k) tree * 'e option) =
 		let
@@ -154,15 +153,14 @@ structure BinarySearchTree :> BINARY_SEARCH_TREE = struct
 			String.concat(List.map element_to_string (to_list_lnr(root)))
 		end
 
+	(* ('a -> string) * ('b -> string) * ('a, 'b) tree -> string *)
 	fun to_graphviz_dot(element_to_string, key_to_string, t) =
 		let
+			(* Bind root and to_key function *)
+			val (_, _, this_to_key) = t
+			val root = t
+			val to_key = this_to_key
 			
-			(* TODO: bind root *)
-			val root = raise Fail("NotYetImplemented")
-			(* TODO: bind to_key *)
-			val to_key = raise Fail("NotYetImplemented")
-			
-
 			fun node_to_dot(element) =
 				"\t" ^ key_to_string(to_key(element)) ^ " [label= \"{ " ^ element_to_string(element) ^ " | { <child_left> | <child_right> } }\"]"
 
@@ -172,10 +170,61 @@ structure BinarySearchTree :> BINARY_SEARCH_TREE = struct
 				| SOME(parent_element) => "\t" ^ key_to_string(to_key(parent_element)) ^ tag ^ " -> " ^ key_to_string(to_key(element))
 
 			fun nodes_to_dot(bst) =
-					raise Fail("NotYetImplemented")
+				let
+					val (root, _, _) = bst
+					fun nodes_to_dot_helper(n) =
+						case n of
+							Nil => ""
+						  | Sub (this_val, this_left, this_right) =>
+						  	case (this_left, this_right) of
+								(Nil, Nil) => 
+									node_to_dot(this_val)
+							  | (this_left, Nil) =>
+							  		node_to_dot(this_val) ^ "\n\t" ^
+									nodes_to_dot_helper(this_left)
+							  | (Nil, this_right) =>
+							  		node_to_dot(this_val) ^ "\n\t" ^
+									nodes_to_dot_helper(this_right)
+							  | (Sub (lv, ll, lr), Sub (rv, rl, rr)) =>
+									nodes_to_dot_helper(this_left) ^ "\n\t" ^ 
+									key_to_string(to_key(this_val)) ^ 
+									" [label= \"{ " ^ element_to_string(this_val) ^ " | { " ^ element_to_string(lv) ^ " | " ^ element_to_string(rv) ^ " } }\"]" ^ "\n" ^
+									nodes_to_dot_helper(this_right)
+				in
+					nodes_to_dot_helper(root)
+				end
+
+			fun edge_traversal(bst : ('e, 'k) tree) : ('e * 'e) list =
+				let
+					val (root, _, _) = bst
+					fun edge_traversal_helper(n : 'e node) =
+						case n of
+							Nil => []
+						  | Sub (this_val, this_left, this_right) =>
+							case (this_left, this_right) of
+								(Nil, Nil) => []
+						  	  | (Sub (this_left_val, _, _), Nil) =>
+						  		(this_val, this_left_val)::edge_traversal_helper(this_left)
+						  	  | (Nil, Sub (this_right_val, _, _)) =>
+						  		(this_val, this_right_val)::edge_traversal_helper(this_right)
+						  	  | (Sub (this_left_val, _, _), Sub (this_right_val, _, _)) =>
+						  		edge_traversal_helper(this_left)@[(this_val, this_left_val)]@[(this_val, this_right_val)]@edge_traversal_helper(this_right)
+				in
+					edge_traversal_helper(root)
+				end
 
 			fun edges_to_dot(bst, parent_element_opt, tag) =
-					raise Fail("NotYetImplemented")
+				let
+					val elist = edge_traversal(bst)
+					fun edges_to_dot_helper(elist, parent_element_opt, tag) =
+						case elist of
+						[] => ""
+					  | (src, dest)::rest =>
+					  	edge_to_dot(SOME(src), tag, dest) ^ "\n\t" ^
+						edges_to_dot_helper(rest, parent_element_opt, tag)
+				in
+					edges_to_dot_helper(elist, parent_element_opt, tag)
+				end
 
 		in
 			"digraph g {\n\n\tnode [\n\t\tshape = record\n\t]\n\n\tedge [\n\t\ttailclip=false,\n\t\tarrowhead=vee,\n\t\tarrowtail=dot,\n\t\tdir=both\n\t]\n\n" ^ nodes_to_dot(root) ^ edges_to_dot(root, NONE, "") ^ "\n}\n"
