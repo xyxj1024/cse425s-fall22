@@ -30,7 +30,7 @@ end)
 structure MacroBstTesting = struct
 	val iteration_count = 8
 	val rnd = Random.rand(425, 231)
-	fun test_bst() = 
+	fun test_bst(is_remove_testing_desired) = 
 		( UnitTesting.enter("bst")
 
 			; IntBstTesting.test_bare_minimum_implemented(425)
@@ -46,18 +46,21 @@ structure MacroBstTesting = struct
 			; IntBstTesting.assertInsertAllInRandomOrderFollowedByFindsEachInRandomOrderRepeatedly(iteration_count, [0,1,4,6,8,9], [2,3,5,7], rnd)
 			; StringBstTesting.assertInsertAllInRandomOrderFollowedByFindsEachInRandomOrderRepeatedly(iteration_count, ["b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"], ["a", "e", "i", "o", "u"], rnd)
 
-			; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "A")
-			; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "C")
-			; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "E")
-			; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "H")
-			; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "I")
-			; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "G")
-			; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "D")
-			; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "B")
-			; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "F")
-
-			; IntBstTesting.assertInsertAllInRandomOrderFollowedByRemoveEachInRandomOrderRepeatedly(iteration_count, [0,1,2,3,4,5,6,7,8,9], rnd)
-			; StringBstTesting.assertInsertAllInRandomOrderFollowedByRemoveEachInRandomOrderRepeatedly(iteration_count, ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"], rnd)
+			; if is_remove_testing_desired
+			  then 
+			  	( StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "A")
+				; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "C")
+				; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "E")
+				; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "H")
+				; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "I")
+				; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "G")
+				; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "D")
+				; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "B")
+				; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "F")
+				; IntBstTesting.assertInsertAllInRandomOrderFollowedByRemoveEachInRandomOrderRepeatedly(iteration_count, [0,1,2,3,4,5,6,7,8,9], rnd)
+				; StringBstTesting.assertInsertAllInRandomOrderFollowedByRemoveEachInRandomOrderRepeatedly(iteration_count, ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"], rnd)
+				)
+			  else ()
 
 		; UnitTesting.leave() )
 end

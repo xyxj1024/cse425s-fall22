@@ -34,19 +34,18 @@ end = struct
         end
     )
 
-    fun remove_random(xs : entry list, r : Random.rand) : (entry*(entry list)) = 
-        let 
-            val i = Random.randInt(r) mod List.length(xs)
-            val x = List.nth(xs, i)
-            val xs' = List.filter (fn v=> compare_entries(v,x) <> EQUAL) xs
-        in
-            (x, xs')
-        end
-
     fun shuffle(original_list : entry list, r : Random.rand) : entry list =
         let
             val input = ref original_list
             val output = ref []
+            fun remove_random(xs : entry list, r : Random.rand) : (entry*(entry list)) = 
+                let 
+                    val i = Random.randInt(r) mod List.length(xs)
+                    val x = List.nth(xs, i)
+                    val xs' = List.filter (fn v=> compare_entries(v,x) <> EQUAL) xs
+                in
+                    (x, xs')
+                end
             val _ = 
                 while List.length(!input) > 0 do
                     let
@@ -202,12 +201,14 @@ end = struct
             val bst_binding = "updated_bst"
             fun f(x, (bst, xs)) =
                 let 
+                    val _ = UnitTesting.enter("insert " ^ to_string_from_entry(x))
                     val bst' = assert_insert(NONE, bst_binding, bst, x)
-                    val xs' = xs @ [x]
-                    val _ = assert_find(SOME(x), bst_binding, bst', to_key(x)) handle e => (output_debug(xs', []); raise e)
-                    val _ = assert_bst_to_list(xs', bst_binding, bst') handle e => (output_debug(xs', []); raise e)
+                    val inserted_list_for_debug = xs @ [x]
+                    val _ = assert_find(SOME(x), bst_binding, bst', to_key(x)) handle e => (output_debug(inserted_list_for_debug, []); raise e)
+                    val _ = assert_bst_to_list(inserted_list_for_debug, bst_binding, bst') handle e => (output_debug(inserted_list_for_debug, []); raise e)
+                    val _ = UnitTesting.leave()
                 in
-                    (bst', xs')
+                    (bst', inserted_list_for_debug)
                 end
             
             val (bst_full, _) = List.foldl f (bst_empty,[]) xs
@@ -221,7 +222,7 @@ end = struct
         then raise Fail("contains_duplicate: " ^ EntryTesting.toStringFromList(xs))
         else insert_all_no_duplicates(xs)
 
-    fun assertInsertAll(original_list : entry list) : unit = 
+    fun assertInsertAll(original_list : entry list) = 
         let
             val _ = UnitTesting.enter("assertInsertAll(" ^ EntryTesting.toStringFromList(original_list) ^ ")")
             val _ = assert_insert_all(original_list)
@@ -250,8 +251,13 @@ end = struct
             fun assert_missing(x) = 
                 assert_find(NONE, "bst", bst, to_key(x))
         in
-            ( List.app assert_pressent entries_to_insert
+            ( UnitTesting.enter("find present")
+            ; List.app assert_pressent entries_to_insert
+            ; UnitTesting.leave()
+            ; UnitTesting.enter("find missing")
             ; List.app assert_missing missing_entries_to_attempt_to_find )
+            ; UnitTesting.leave()
+            ; UnitTesting.leave()
         end
 
     fun assertInsertAllInRandomOrderFollowedByFindsEachInRandomOrderRepeatedly(n : int, original_list: entry list, missing_values_to_attempt_to_find : entry list, rnd : Random.rand) : unit = 
@@ -274,6 +280,7 @@ end = struct
         let
             val _ = UnitTesting.enter("assertInsertAllInOrderFollowedByRemove(" ^ EntryTesting.toStringFromList(entries) ^ ", " ^ EntryTesting.toString(entry_to_remove) ^ ")")
             val bst = assert_insert_all(entries)
+            val _ = UnitTesting.enter("remove " ^ to_string_from_key(to_key(entry_to_remove)))
             val bst' = assert_remove(SOME(entry_to_remove), "bst", bst, to_key(entry_to_remove)) handle e => (output_debug(entries, []); raise e)
             val _ = assert_find(NONE, "bst_after_remove", bst', to_key(entry_to_remove)) handle e => (output_debug(entries, [entry_to_remove]); raise e)
             fun f(entry) = 
@@ -281,70 +288,46 @@ end = struct
                 then ()
                 else assert_find(SOME(entry), "bst_after_remove", bst', to_key(entry)) handle e => (output_debug(entries, [entry_to_remove]); raise e)
             val _ = List.app f entries
+            val _ = UnitTesting.leave()
         in
             UnitTesting.leave()
         end
 
+    fun remove_all_present(bst, removes, inserts_for_debug) =
+        let 
+            val bst_binding = "updated_bst"
 
-(*
-    fun assertInsertAllInOrderFollowedByRemove(values: entry list, entry_to_remove : entry) : unit = 
-        let
-            fun bst_to_list(bst) : entry list =
-                BinarySearchTree.fold_rnl(op::, [], bst)
-
-            val exception_note = ""
-            val _ = UnitTesting.enter("assertInsertAllInOrderFollowedByRemove(" ^ EntryTesting.toStringFromList(values) ^ ", " ^ EntryTesting.toString(entry_to_remove) ^ ")")
-            val original_tree = assert_insert_all(values)
-            val (actual_tree_post_remove,_) = assert_remove_completion(original_tree, to_key(entry_to_remove), "bst_from_previous_line", exception_note)
-            val actual_values_post_remove = bst_to_list(actual_tree_post_remove)
-
-            val values_post_remove = List.filter (fn v=> v<>entry_to_remove) values
-            val expected_values_post_remove = (ListMergeSort.uniqueSort compare_entries values_post_remove)
-            val test_case_detail = "bst_to_list(bst_from_previous_line)"
-            val expected_detail = EntryTesting.toStringFromList(expected_values_post_remove)
-            val actual_detail = EntryTesting.toStringFromList(actual_values_post_remove)
-            val _ = 
-                if expected_values_post_remove = actual_values_post_remove
-                then UnitTesting.on_success(SOME test_case_detail, "equals: " ^ expected_detail)
-                else 
-                    (* let
-                    val original_tree_string = BinarySearchTree.debug_message(item_to_string, original_tree)
-                    val actual_tree_string = BinarySearchTree.debug_message(item_to_string, actual_tree_post_remove)
-                    in
-                    UnitTesting.on_failure(NONE, item_list_to_string(expected_values_post_remove), item_list_to_string(actual_values_post_remove) ^ "\n!!!                    assertInsertAllInOrderFollowedByRemove(" ^ item_list_to_string(values) ^ ", " ^ item_to_string(value_to_remove) ^ ")\n!!!                    original tree: " ^ original_tree_string ^ "\n!!!                    post remove tree: " ^ actual_tree_string)
-                    end *)
-                    UnitTesting.on_failure(SOME test_case_detail, expected_detail, actual_detail)
-
-        in
-            UnitTesting.leave()
-        end
-*)
-
-    fun assertInsertAllFollowedByRemoveEachInRandomOrder(shuffled_list: entry list, rnd : Random.rand) : unit = 
-        let
-            val _ = UnitTesting.enter("assertInsertAllFollowedByRemoveEachInRandomOrder(" ^ EntryTesting.toStringFromList(shuffled_list) ^ ", rnd)")
-            val input = ref shuffled_list
-            val output : entry list ref = ref []
-
-            (* TODO *)
-            (* val bst = insertAll(shuffled_list) *)
-        in
-            while List.length(!input) > 0 do
-                let
-                    val xs = !input
-                    val (entry, input') = remove_random(!input, rnd)
-                    val _ = output := (entry :: !output)
-                    val _ = input := input'
+            fun helper(bst, [], previously_removed) = bst
+              | helper(bst, to_remove::removes', previously_removed) =
+                let 
+                    val _ = UnitTesting.enter("remove " ^ to_string_from_key(to_key(to_remove)))
+                    val bst' = assert_remove(SOME(to_remove), bst_binding, bst, to_key(to_remove))
+                    val removed = previously_removed @ [to_remove]
+                    val _ = assert_find(NONE, bst_binding, bst', to_key(to_remove)) handle e => (output_debug(inserts_for_debug, removed); raise e)
+                    val _ = assert_bst_to_list(removes', bst_binding, bst') handle e => (output_debug(inserts_for_debug, removed); raise e)
+                    val _ = UnitTesting.leave()
                 in
-                    assertInsertAllInOrderFollowedByRemove(xs, entry)
-                end 
+                    helper(bst', removes', removed)
+                end
+            
+        in
+            helper(bst, removes, [])
+        end
+
+    fun assertInsertAllFollowedByRemoveAll(inserts: entry list, removes : entry list) : unit = 
+        let
+            val _ = UnitTesting.enter("assertInsertAllFollowedByRemoveEachInRandomOrder((* inserts= *)" ^ EntryTesting.toStringFromList(inserts) ^ ", (* removes= *)"  ^ EntryTesting.toStringFromList(removes) ^ ")")
+            val bst = assert_insert_all(inserts)
+            val _ = remove_all_present(bst, removes, inserts)
+        in
+            UnitTesting.leave()
         end
 
     fun assertInsertAllInRandomOrderFollowedByRemoveEachInRandomOrderRepeatedly(n : int, original_list: entry list, rnd : Random.rand) : unit = 
         let
             val _ = UnitTesting.enter("assertInsertAllInRandomOrderFollowedByRemoveEachInRandomOrderRepeatedly(" ^ Int.toString(n) ^ ", " ^ EntryTesting.toStringFromList(original_list) ^ ", rnd)")
             val _ = repeat_n_times(n, fn(i)=>
-                assertInsertAllFollowedByRemoveEachInRandomOrder(shuffle(original_list, rnd), rnd)
+                assertInsertAllFollowedByRemoveAll(shuffle(original_list, rnd), shuffle(original_list, rnd))
             )
         in
             UnitTesting.leave()
