@@ -5,7 +5,6 @@ structure IntBstTesting = BstTestingFn(struct
 	fun to_key(x) = x
 	val to_string_from_key = IntTesting.toString
 	val to_string_from_entry = IntTesting.toString
-	val assert_option_entry_eval_equals = IntTesting.assertOptionEvalEqualsWithMessage
     fun debug_compare_text() = 
 		"Int.compare"
 
@@ -20,7 +19,6 @@ structure StringBstTesting = BstTestingFn(struct
 	fun to_key(x) = x
 	val to_string_from_key = StringTesting.toString
 	val to_string_from_entry = StringTesting.toString
-	val assert_option_entry_eval_equals = StringTesting.assertOptionEvalEqualsWithMessage
     fun debug_compare_text() = 
 		"String.compare"
 
