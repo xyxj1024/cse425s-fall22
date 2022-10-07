@@ -47,7 +47,7 @@ end) : EQUALITY_TESTING = struct
 
 			val expected_sorted = sort expected
 			val actual_possibly_sorted = if strictness=ListStrictness.ANY_ORDER then (sort actual) else actual
-			val text = if strictness=ListStrictness.ANY_ORDER then "any order" else "sorted"
+			val strictness_text = if strictness=ListStrictness.ANY_ORDER then "any order" else "sorted"
 		in
 			if expected_sorted = actual_possibly_sorted
 			then 
@@ -66,11 +66,11 @@ end) : EQUALITY_TESTING = struct
 				print("\n")
 				;
 			*)
-				UnitTesting.on_success( message_option, "as expected, equals (" ^ text ^ "): " ^ to_flexible_actual_string(to_list_string, actual))
+				UnitTesting.on_success( message_option, "as expected, equals (" ^ strictness_text ^ "): " ^ to_flexible_actual_string(to_list_string, actual))
 			(*
 			)
 			*)
-			else UnitTesting.on_failure( message_option, "(in any order) " ^ to_list_string(expected_sorted), to_list_string(actual_possibly_sorted) )
+			else UnitTesting.on_failure( message_option, "(" ^ strictness_text ^ ") " ^ to_list_string(expected_sorted), to_list_string(actual_possibly_sorted) )
 		end
 
 	fun assertEqualsWithMessage(expected : t, actual : t, message : string) : unit =
