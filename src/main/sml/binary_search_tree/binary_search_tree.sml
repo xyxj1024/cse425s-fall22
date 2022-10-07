@@ -178,18 +178,18 @@ structure BinarySearchTree :> BINARY_SEARCH_TREE = struct
 						  | Sub (this_val, this_left, this_right) =>
 						  	case (this_left, this_right) of
 								(Nil, Nil) => 
-									node_to_dot(this_val)
+									"\n" ^ node_to_dot(this_val)
 							  | (this_left, Nil) =>
-							  		node_to_dot(this_val) ^ "\n\t" ^
+							  		"\n" ^ node_to_dot(this_val) ^ "\n\t" ^
 									nodes_to_dot_helper(this_left)
 							  | (Nil, this_right) =>
-							  		node_to_dot(this_val) ^ "\n\t" ^
+							  		"\n" ^ node_to_dot(this_val) ^ "\n\t" ^
 									nodes_to_dot_helper(this_right)
 							  | (Sub (lv, ll, lr), Sub (rv, rl, rr)) =>
-									nodes_to_dot_helper(this_left) ^ "\n\t" ^ 
+									"\n" ^ nodes_to_dot_helper(this_left) ^ "\n\t" ^ 
 									key_to_string(to_key(this_val)) ^ 
-									" [label= \"{ " ^ element_to_string(this_val) ^ " | { " ^ element_to_string(lv) ^ " | " ^ element_to_string(rv) ^ " } }\"]" ^ "\n" ^
-									nodes_to_dot_helper(this_right)
+									" [label= \"{ " ^ element_to_string(this_val) ^ " | { " ^ element_to_string(lv) ^ " | " ^ element_to_string(rv) ^ " } }\"]" ^
+									"\n" ^ nodes_to_dot_helper(this_right)
 				in
 					nodes_to_dot_helper(root)
 				end
@@ -220,14 +220,14 @@ structure BinarySearchTree :> BINARY_SEARCH_TREE = struct
 						case elist of
 						[] => ""
 					  | (src, dest)::rest =>
-					  	edge_to_dot(SOME(src), tag, dest) ^ "\n\t" ^
+					  	"\n" ^ edge_to_dot(SOME(src), tag, dest) ^ "\n\t" ^
 						edges_to_dot_helper(rest, parent_element_opt, tag)
 				in
 					edges_to_dot_helper(elist, parent_element_opt, tag)
 				end
 
 		in
-			"digraph g {\n\n\tnode [\n\t\tshape = record\n\t]\n\n\tedge [\n\t\ttailclip=false,\n\t\tarrowhead=vee,\n\t\tarrowtail=dot,\n\t\tdir=both\n\t]\n\n" ^ nodes_to_dot(root) ^ edges_to_dot(root, NONE, "") ^ "\n}\n"
+			"digraph g {\n\n\tnode [\n\t\tshape = record\n\t]\n\n\tedge [\n\t\ttailclip=false,\n\t\tarrowhead=vee,\n\t\tarrowtail=dot,\n\t\tdir=both\n\t]" ^ nodes_to_dot(root) ^ "\n" ^ edges_to_dot(root, NONE, "") ^ "\n}\n"
 		end
 
 end (* struct *) 
