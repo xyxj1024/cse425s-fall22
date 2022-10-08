@@ -409,17 +409,17 @@ end = struct
 			| INTEGER(v) => v
 
 	fun binding_to_fcn(binding) =
-		case binding of
-		  "is_extra" => is_extra
-		| "is_even" => is_even
-		| "is_greater_than_max(maximum_score(1))" => is_greater_than_max(maximum_score(1))
-		| "is_greater_than_max(maximum_score(2))" => is_greater_than_max(maximum_score(2))
-		| "is_greater_than_max(maximum_score(3))" => is_greater_than_max(maximum_score(3))
-		| "is_greater_than_max(maximum_score(4))" => is_greater_than_max(maximum_score(4))
-		| "is_greater_than_max(maximum_score(5))" => is_greater_than_max(maximum_score(5))
-		| "is_greater_than_max(maximum_score(6))" => is_greater_than_max(maximum_score(6))
-		| "is_greater_than_max(maximum_score(7))" => is_greater_than_max(maximum_score(7))
-		| _ => raise Fail binding
+		(* bug in string literal pattern matching on windows forced this if elseif *)
+		if binding = "is_extra" then is_extra
+		else if binding = "is_even" then is_even
+		else if binding = "is_greater_than_max(maximum_score(1))" then is_greater_than_max(maximum_score(1))
+		else if binding = "is_greater_than_max(maximum_score(2))" then is_greater_than_max(maximum_score(2))
+		else if binding = "is_greater_than_max(maximum_score(3))" then is_greater_than_max(maximum_score(3))
+		else if binding = "is_greater_than_max(maximum_score(4))" then is_greater_than_max(maximum_score(4))
+		else if binding = "is_greater_than_max(maximum_score(5))" then is_greater_than_max(maximum_score(5))
+		else if binding = "is_greater_than_max(maximum_score(6))" then is_greater_than_max(maximum_score(6))
+		else if binding = "is_greater_than_max(maximum_score(7))" then is_greater_than_max(maximum_score(7))
+		else raise Fail binding
 
     fun test_count_if_in_row() =
 		let
