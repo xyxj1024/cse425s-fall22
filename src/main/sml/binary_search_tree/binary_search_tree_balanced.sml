@@ -7,6 +7,8 @@ structure BinarySearchTree :> BINARY_SEARCH_TREE = struct
     type 'k compare_function = (('k * 'k) -> order)
 	type ('e,'k) to_key_function = 'e -> 'k
 
+	(* A non-empty tree node takes the form of
+	 * Sub (height, element, left_child, right_child) *)
     datatype 'e node = Nil | Sub of int * 'e * ('e node) * ('e node)
     type ('e,'k) tree = ('e node * 
                          'k compare_function * 
