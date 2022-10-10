@@ -3,11 +3,11 @@
 exception NoAnswer
 
 datatype pattern = Wildcard
-		 | Variable of string
-		 | UnitP
-		 | ConstP of int
-		 | TupleP of pattern list
-		 | ConstructorP of string * pattern
+				 | Variable of string
+				 | UnitP
+				 | ConstP of int
+				 | TupleP of pattern list
+				 | ConstructorP of string * pattern
 
 (* type point = (int * int)
    type circle = (point * int)
@@ -24,29 +24,29 @@ datatype pattern = Wildcard
  *)
 
 datatype valu = Const of int
-	      | Unit
-	      | Tuple of valu list
-	      | Constructor of string * valu
+			  | Unit
+			  | Tuple of valu list
+			  | Constructor of string * valu
 
 fun g f1 f2 p =
     let 
-	val r = g f1 f2 
+		val r = g f1 f2 
     in
-	case p of
-	    Wildcard          => f1 ()
-	  | Variable x        => f2 x
-	  | TupleP ps         => List.foldl (fn (p,i) => (r p) + i) 0 ps
-	  | ConstructorP(_,p) => r p
-	  | _                 => 0
+		case p of
+	    	Wildcard          => f1 ()
+	      | Variable x        => f2 x
+	      | TupleP ps         => List.foldl (fn (p,i) => (r p) + i) 0 ps
+	      | ConstructorP(_,p) => r p
+	      | _                 => 0
     end
 
 (**** for the challenge problem only ****)
 
-datatype typ = Anything       (* any type of value is okay *)
-	     | UnitT              (* type of Unit *)
-	     | IntT               (* type for integers *)
-	     | TupleT of typ list (* tuple types *)
-	     | Datatype of string (* some named datatype *)
+datatype typ = Anything           (* any type of value is okay *)
+	         | UnitT              (* type of Unit *)
+	         | IntT               (* type for integers *)
+	         | TupleT of typ list (* tuple types *)
+	         | Datatype of string (* some named datatype *)
 
 (**** you can put all your code here ****)
 
@@ -143,19 +143,20 @@ val count_some_var = fn (str, pat) =>
 val check_pat =
 		(* Takes a pattern and returns a list of all strings the pattern
 		   uses for variables. *)
-	let fun get_strlst pat =
-		case pat of
-			Variable x => [x]
-		  | TupleP ps => foldl (fn (p, acc) => (get_strlst p)@acc) [] ps
-		  | ConstructorP(_, p) => get_strlst p
-		  | _ => []
+	let
+		fun get_strlst pat =
+			case pat of
+				Variable x => [x]
+		      | TupleP ps => foldl (fn (p, acc) => (get_strlst p)@acc) [] ps
+		      | ConstructorP(_, p) => get_strlst p
+		      | _ => []
 		(* Takes a list of strings and returns true iff no repeated strings. *)
 		fun diff_str lst =
-		case lst of
-			[] => true | x::xs =>
-			case List.exists (fn y => x = y) xs of
-		  		false => diff_str xs
-			  | true => false
+			case lst of
+				[] => true | x::xs =>
+				case List.exists (fn y => x = y) xs of
+		  			false => diff_str xs
+			      | true => false
 	in
 		diff_str o get_strlst
 	end
@@ -200,15 +201,16 @@ fun pattern_to_typ (pat, cons) =
 	  		(* Local helper function:
 			       matches a ConstructorP in a list of string * string * typ pairs
                    (the constructor list) and converts it to a named Datatype *)
-	  		let fun cons_to_nd cs =
-				case cs of
-					[] => Datatype ""
-	  			  | (x, y, z)::rest =>
-	  					if (x = s) andalso 
-						(pattern_to_typ (p, cons) = z orelse
-						 pattern_to_typ (p, cons) = Anything)
-						then Datatype y
-						else cons_to_nd rest
+	  		let
+				fun cons_to_nd cs =
+					case cs of
+						[] => Datatype ""
+	  			      | (x, y, z)::rest =>
+	  						if (x = s) andalso 
+							(pattern_to_typ (p, cons) = z orelse
+						 	 pattern_to_typ (p, cons) = Anything)
+							then Datatype y
+							else cons_to_nd rest
 			in
 				cons_to_nd cons
 			end
@@ -232,10 +234,11 @@ fun typlst_to_typ typs =
 			(Anything, y) => y
 	  	  | (x, Anything) => x
 	      | (TupleT(t1), TupleT(t2)) =>
-	  			let fun aux(ps, acc) =
-					case ps of
-						[] => TupleT(acc)
-				      | (p1, p2)::rest => aux(rest, acc@[typlst_to_typ([p1, p2])])
+	  			let
+					fun aux(ps, acc) =
+						case ps of
+							[] => TupleT(acc)
+				          | (p1, p2)::rest => aux(rest, acc@[typlst_to_typ([p1, p2])])
 				in
 					(* raises UnequalLengths with zipEq *)
 					aux(ListPair.zipEq(t1, t2), [])
@@ -249,10 +252,13 @@ fun typop t =
 	case t of
 		Datatype "" => NONE
 	  | TupleT(typlst) =>
-	  		let fun find ts =
-				case ts of [] => SOME t | head::rest =>
-					case typop head of NONE => NONE | _ => find rest
-			in find typlst
+	  		let 
+				fun find ts = case ts of [] => SOME t | head::rest =>
+					case typop head of 
+						NONE => NONE 
+					  | _ => find rest
+			in
+				find typlst
 			end
 	  | _ => SOME t
 

@@ -31,13 +31,12 @@ fun hsplice(h1::t1, h2::t2, w1, w2) = (h1 ^ h2) :: hsplice(t1, t2, w1 ,w2)
   | hsplice(sl1 : string list, nil, w1, w2) = pad(sl1, w1 + w2)
   | hsplice(nil, sl2, w1, w2) = indent(sl2, w1)
 
-fun toStrings(t as (root, _, _) : ('e, 'k) tree, element_to_string : 'e -> string, key_to_string : 'k -> string): ((string list) * int * int * int) =
+fun toStrings(t as (root, _, _) : ('e, 'k) tree): ((string list) * int * int * int) =
     case root of
         Nil => ([], 0, 0, 0)
       | Sub (_, _, left_child, right_child) =>
             let
-                fun node_toString(n as (_, element, _, _) : 'e node) : string =
-                    "\t" ^ key_to_string(to_key(element)) ^ " [label= \"{ " ^ element_to_string(element) ^ " | { <child_left> | <child_right> } }\"]"
+                fun node_toString(Sub (_, element, _, _))= Int.toString(element)
                 val vs = node_toString(root)
                 val vl = String.size(vs)
                 val (sl1, w1, h1, r1) = toStrings(left_child)

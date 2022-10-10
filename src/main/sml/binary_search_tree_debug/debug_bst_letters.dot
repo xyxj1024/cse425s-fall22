@@ -11,37 +11,23 @@ digraph g {
 		dir=both
 	]
 
-
-	a [label= "{ a | { <child_left> | <child_right> } }"]
+	a [label= "{ a | {   |   } }"]
 	b [label= "{ b | { a | d } }"]
-
-
-	c [label= "{ c | { <child_left> | <child_right> } }"]
+	c [label= "{ c | {   |   } }"]
 	d [label= "{ d | { c | e } }"]
-
-	e [label= "{ e | { <child_left> | <child_right> } }"]
+	e [label= "{ e | {   |   } }"]
 	f [label= "{ f | { b | g } }"]
-
-	g [label= "{ g | { <child_left> | <child_right> } }"]
-	
-	i [label= "{ i | { <child_left> | <child_right> } }"]
-	
-	h [label= "{ h | { <child_left> | <child_right> } }"]
+	g [label= "{ g | {   | i } }"]
+	i [label= "{ i | { h |   } }"]
+	h [label= "{ h | {   |   } }"]
 
 	b -> a
-	
 	b -> d
-	
 	d -> c
-	
 	d -> e
-	
 	f -> b
-	
 	f -> g
-	
 	g -> i
-	
 	i -> h
-	
+
 }

@@ -18,7 +18,7 @@ val dot = BinarySearchTree.to_graphviz_dot(identity, identity, bst)
 val _ = print(dot)
 
 val debug_message = BinarySearchTree.debug_message(identity, bst)
-val _ = print(debug_message ^ "\n")
+val _ = print("\n" ^ debug_message ^ "\n\n")
 
 val ostream = TextIO.openOut "debug_bst_letters.dot"
 val _ = TextIO.output (ostream, dot) handle e => (TextIO.closeOut ostream; raise e)
