@@ -34,31 +34,6 @@ end = struct
         end
     )
 
-    fun shuffle(original_list : entry list, r : Random.rand) : entry list =
-        let
-            val input = ref original_list
-            val output = ref []
-            fun remove_random(xs : entry list, r : Random.rand) : (entry*(entry list)) = 
-                let 
-                    val i = Random.randInt(r) mod List.length(xs)
-                    val x = List.nth(xs, i)
-                    val xs' = List.filter (fn v=> compare_entries(v,x) <> EQUAL) xs
-                in
-                    (x, xs')
-                end
-            val _ = 
-                while List.length(!input) > 0 do
-                    let
-                        val (v, input') = remove_random(!input, r)
-                        val _ = output := (v :: !output)
-                        val _ = input := input'
-                    in
-                        ()
-                    end
-        in
-            !output
-        end
-
     fun each_in_range(min, maxExclusive, f) =
         if min<maxExclusive
         then (f(min); each_in_range(min+1, maxExclusive, f))
@@ -234,7 +209,7 @@ end = struct
         let
             val _ = UnitTesting.enter("assertInsertAllInRandomOrderRepeatedly(" ^ Int.toString(n) ^ ", " ^ EntryTesting.toStringFromList(original_list) ^ ", rnd)")
             val _ = repeat_n_times(n, fn(i)=>
-                assertInsertAll(shuffle(original_list, rnd))
+                assertInsertAll(RandomUtils.shuffle(original_list, rnd))
             )
         in
             UnitTesting.leave()
@@ -265,8 +240,8 @@ end = struct
             val _ = UnitTesting.enter("assertInsertAllInRandomOrderFollowedByFindsEachInRandomOrderRepeatedly(" ^ Int.toString(n) ^ ", " ^ EntryTesting.toStringFromList(original_list) ^ ", rnd)")
             val _ = repeat_n_times(n, fn(i)=>
                 let
-                    val shuffled_present_list = shuffle(original_list, rnd)
-                    val shuffled_missing_list = shuffle(missing_values_to_attempt_to_find, rnd)
+                    val shuffled_present_list = RandomUtils.shuffle(original_list, rnd)
+                    val shuffled_missing_list = RandomUtils.shuffle(missing_values_to_attempt_to_find, rnd)
                     val _ = assertInsertAllInOrderFollowedByFinds(shuffled_present_list, shuffled_missing_list)
                 in
                     ()
@@ -327,7 +302,7 @@ end = struct
         let
             val _ = UnitTesting.enter("assertInsertAllInRandomOrderFollowedByRemoveEachInRandomOrderRepeatedly(" ^ Int.toString(n) ^ ", " ^ EntryTesting.toStringFromList(original_list) ^ ", rnd)")
             val _ = repeat_n_times(n, fn(i)=>
-                assertInsertAllFollowedByRemoveAll(shuffle(original_list, rnd), shuffle(original_list, rnd))
+                assertInsertAllFollowedByRemoveAll(RandomUtils.shuffle(original_list, rnd), RandomUtils.shuffle(original_list, rnd))
             )
         in
             UnitTesting.leave()

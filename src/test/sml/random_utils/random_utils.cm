@@ -1,0 +1,7 @@
+Group
+    signature RANDOM_UTILS
+    structure RandomUtils
+is
+    random_utils.sml
+    $/basis.cm
+    $/smlnj-lib.cm
