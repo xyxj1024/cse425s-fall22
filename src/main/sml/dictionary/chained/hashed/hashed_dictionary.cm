@@ -1,0 +1,8 @@
+Library
+    structure HashedDictionary
+is
+    hashed_dictionary.sml
+    ../chain.cm
+    ../../dictionary.cm
+    $/basis.cm
+    $/smlnj-lib.cm

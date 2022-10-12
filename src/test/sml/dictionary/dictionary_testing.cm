@@ -1,0 +1,17 @@
+Group
+    functor DictTestingFn
+    signature DICT_TESTING_PARAMETER
+    functor StringToIntDictTestingFn
+    functor PutAllDictTestingFn
+    functor DictionaryTestingFn
+is
+    dict_testing.sml
+    string_to_int_dict_testing.sml
+    put_all_dict_testing.sml
+    dictionary_testing.sml
+    ../entry/entry.cm
+    ../../../main/sml/dictionary/dictionary.cm
+    ../unit_testing/unit_testing.cm
+    ../random_utils/random_utils.cm
+    $/basis.cm
+    $/smlnj-lib.cm

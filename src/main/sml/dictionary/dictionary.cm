@@ -1,0 +1,10 @@
+Library
+    signature DICTIONARY_FUNCTOR_PARAMETER
+    signature DICTIONARY
+    functor DictionaryFn
+is
+    dictionary.sig
+    dictionary_functor_parameter.sig
+    dictionary.sml
+    $/basis.cm
+    $/smlnj-lib.cm
