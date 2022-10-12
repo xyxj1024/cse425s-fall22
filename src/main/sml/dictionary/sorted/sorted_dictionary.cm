@@ -1,0 +1,8 @@
+Library
+    structure SortedDictionary
+is
+    sorted_dictionary.sml
+    ../dictionary.cm
+    ../../binary_search_tree/binary_search_tree.cm
+    $/basis.cm
+    $/smlnj-lib.cm

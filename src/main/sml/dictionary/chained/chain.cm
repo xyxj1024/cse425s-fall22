@@ -1,0 +1,8 @@
+Library
+    structure Chain
+    signature CHAIN
+is
+    chain.sml
+    chain.sig
+    $/basis.cm
+    $/smlnj-lib.cm

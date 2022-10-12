@@ -1,0 +1,9 @@
+Group
+	structure StringIntEntryTesting
+    structure IntStringEntryTesting
+is
+    int_string_entry_testing.sml
+    string_int_entry_testing.sml
+    ../unit_testing/unit_testing.cm
+    $/basis.cm
+    $/smlnj-lib.cm

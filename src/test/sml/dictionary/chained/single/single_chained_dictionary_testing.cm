@@ -1,0 +1,9 @@
+Group
+    structure SingleChainedDictionaryTesting
+is
+    single_chained_dictionary_testing.sml
+    ../../dictionary_testing.cm
+    ../../../../../main/sml/dictionary/chained/single/single_chained_dictionary.cm
+    ../../../unit_testing/unit_testing.cm
+    $/basis.cm
+    $/smlnj-lib.cm
