@@ -21,13 +21,6 @@ structure HashedDictionary = DictionaryFn(struct
 
 	
 
-	fun getChainForKey(dict : (''k,'v) dictionary, key : ''k) : (''k*'v) list =
-		raise Fail "NotYetImplemented"
-
-	fun updateChainForKey(dict : (''k,'v) dictionary, key : ''k, updater_function) : (''k,'v) dictionary * 'v option =
-		raise Fail "NotYetImplemented"
-
-
     fun get(dict : (''k,'v) dictionary, key : ''k) : 'v option = 
         raise Fail "NotYetImplemented"
 
