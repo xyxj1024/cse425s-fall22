@@ -10,7 +10,7 @@ structure BinarySearchTree :> BINARY_SEARCH_TREE = struct
 	datatype 'e node = Nil | Sub of 'e * ('e node) * ('e node)
 	type ('e,'k) tree = ('e node * 
 	                     'k compare_function * 
-						           ('e,'k) to_key_function)
+						 ('e,'k) to_key_function)
 
 	fun create_empty(cmp : 'k compare_function, to_key : ('e,'k) to_key_function) : ('e,'k) tree =
 		(Nil, cmp, to_key)
