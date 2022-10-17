@@ -3,15 +3,27 @@
 structure SortedDictionary = DictionaryFn(struct
   type ''k compare_function = (''k * ''k) -> order
 
+  (*
   datatype (''k, 'v) node = Nil | Sub of (''k * 'v) * ((''k, 'v) node) * ((''k, 'v) node)
   type (''k, 'v) dictionary = ((''k, 'v) node * ''k compare_function)
+  *)
+  type (''k, 'v) dictionary = ((''k * 'v), ''k) BinarySearchTree.tree
 
   type ''k create_parameter_type = ''k compare_function
 
+  (*
   fun create(cmp : ''k compare_function) : (''k, 'v) dictionary =
     (Nil, cmp)
+  *)
+  fun create(cmp : ''k compare_function) : (''k, 'v) dictionary =
+    let
+      fun to_key((key, value) : ''k * 'v) : ''k = key
+    in
+      BinarySearchTree.create_empty(cmp, to_key)
+    end
 
-  fun get(dict : (''k, 'v) dictionary, key:''k) : 'v option =
+  (*
+  fun get(dict : (''k, 'v) dictionary, key : ''k) : 'v option =
     let
 			val (root, cmp) = dict
 			fun get_helper(n : (''k, 'v) node) : 'v option =
@@ -25,7 +37,13 @@ structure SortedDictionary = DictionaryFn(struct
 		in
 			get_helper(root)
 		end
+  *)
+  fun get(dict : (''k, 'v) dictionary, key : ''k) : 'v option =
+    case BinarySearchTree.find(dict, key) of
+      NONE => NONE
+    | SOME(this_key, this_val) => SOME this_val
 
+  (*
   fun put(dict : (''k, 'v) dictionary, key:''k, value:'v) : (''k, 'v) dictionary * 'v option =
 		let
 			val (root, cmp) = dict
@@ -42,7 +60,17 @@ structure SortedDictionary = DictionaryFn(struct
 		in
 			((put_helper(root), cmp), !ret)
 		end
+  *)
+  fun put(dict : (''k, 'v) dictionary, key : ''k, value : 'v) : (''k, 'v) dictionary * 'v option =
+    let
+      val (this_dict, this_key_val) = BinarySearchTree.insert(dict, (key, value))
+    in
+      case this_key_val of
+        NONE => (this_dict, NONE)
+      | SOME(this_key, this_val) => (this_dict, SOME this_val)
+    end
 
+  (*
   fun remove(dict : (''k, 'v) dictionary, key : ''k) : (''k, 'v) dictionary * 'v option =
 		let
 			val (root, cmp) = dict
@@ -87,7 +115,17 @@ structure SortedDictionary = DictionaryFn(struct
 		in
 			((remove_helper(root), cmp), !removed)
 		end
+  *)
+  fun remove(dict : (''k, 'v) dictionary, key : ''k) : (''k, 'v) dictionary * 'v option =
+    let
+      val (this_dict, this_key_val) = BinarySearchTree.remove(dict, key)
+    in
+      case this_key_val of
+        NONE => (this_dict, NONE)
+      | SOME(this_key, this_val) => (this_dict, SOME this_val)
+    end
 
+  (*
   fun entries(dict : (''k, 'v) dictionary) : (''k * 'v) list =
     let
       val (root, _) = dict
@@ -99,5 +137,8 @@ structure SortedDictionary = DictionaryFn(struct
     in
       to_list_lnr(root)
     end
+  *)
+  fun entries(dict : (''k, 'v) dictionary) : (''k * 'v) list =
+    BinarySearchTree.fold_rnl((fn (node, acc) => node::acc), [], dict)
 
 end)

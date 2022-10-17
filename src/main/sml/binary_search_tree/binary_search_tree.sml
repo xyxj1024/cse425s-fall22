@@ -46,8 +46,9 @@ structure BinarySearchTree :> BINARY_SEARCH_TREE = struct
 					  case cmp(to_key(element), to_key(this_val)) of
 						  GREATER => Sub (this_val, left_child, insert_helper(right_child))
 				    | LESS => Sub(this_val, insert_helper(left_child), right_child)
-				    | EQUAL => (ret := SOME element;
-					  			      Sub(element, left_child, right_child))
+				    | EQUAL => ((*ret := SOME element;*)
+								ret := SOME this_val;
+					  			Sub(element, left_child, right_child))
 		in
 			((insert_helper(root), cmp, to_key), !ret)
 		end
