@@ -1,0 +1,8 @@
+Library
+    structure SpreadsheetToDictionaries
+is
+    spreadsheet_to_dictionaries.sml
+    ../spreadsheet/spreadsheet.cm
+    ../dictionary/chained/single/single_chained_dictionary.cm
+    $/basis.cm
+    $/smlnj-lib.cm
