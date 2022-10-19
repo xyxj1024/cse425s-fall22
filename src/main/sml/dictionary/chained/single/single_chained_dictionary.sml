@@ -51,7 +51,7 @@ structure SingleChainedDictionary = DictionaryFn(struct
         (remove_helper(dict, key), !ret)
       end
 
-    fun entries(dict : (''k,'v) dictionary) : (''k*'v) list =
+    fun entries(dict : (''k,'v) dictionary) : (''k * 'v) list =
       case dict of
         Empty => []
       | Cons (this_key, this_val, next_rec) =>
