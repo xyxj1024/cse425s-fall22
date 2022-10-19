@@ -1,0 +1,13 @@
+Group
+    structure SpreadsheetToDictionariesTesting
+is
+    spreadsheet_to_dictionaries_testing.sml
+    ../spreadsheet/spreadsheet_testing.cm
+    ../../../main/sml/spreadsheet/csv.cm
+    ../../../main/sml/spreadsheet/spreadsheet.cm
+    ../../../main/sml/spreadsheet_to_dictionaries/spreadsheet_to_dictionaries.cm
+    ../../../main/sml/dictionary/chained/single/single_chained_dictionary.cm
+    ../dictionary/chained/single/single_chained_dictionary_testing.cm
+    ../unit_testing/unit_testing.cm
+    $/basis.cm
+    $/smlnj-lib.cm
