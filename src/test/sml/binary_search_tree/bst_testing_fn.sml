@@ -10,9 +10,19 @@ functor BstTestingFn (
         val debug_to_s_text : unit -> string
     end
 ) : sig
+    (* TODO: REMOVE *)
+    val set_ignore_potential_remove_problems_for_full_credit : bool -> unit
+
     val test_bare_minimum_implemented : BstTestingParam.entry -> unit
     val test_reasonable_minimum_implemented : BstTestingParam.entry -> unit
     val test_reasonable_minimum_correct : (BstTestingParam.entry * BstTestingParam.entry) -> unit
+
+    val assert_create_empty_completion : unit -> (BstTestingParam.entry, BstTestingParam.key) BinarySearchTree.tree
+    val assert_insert : (BstTestingParam.entry option * string * (BstTestingParam.entry, BstTestingParam.key) BinarySearchTree.tree * BstTestingParam.entry ) ->  (BstTestingParam.entry, BstTestingParam.key) BinarySearchTree.tree
+    val assert_remove : (BstTestingParam.entry option * string * (BstTestingParam.entry, BstTestingParam.key) BinarySearchTree.tree * BstTestingParam.key ) ->  (BstTestingParam.entry, BstTestingParam.key) BinarySearchTree.tree
+    val assert_find : (BstTestingParam.entry option * string * (BstTestingParam.entry, BstTestingParam.key) BinarySearchTree.tree * BstTestingParam.key ) -> unit
+    val assert_bst_to_list : (BstTestingParam.entry list * string * (BstTestingParam.entry, BstTestingParam.key) BinarySearchTree.tree) -> unit
+
     val assertInsertAll : BstTestingParam.entry list -> unit
     val assertInsertAllInRandomOrderRepeatedly : (int * BstTestingParam.entry list * Random.rand) -> unit
     val assertInsertAllInOrderFollowedByFinds : (BstTestingParam.entry list * BstTestingParam.entry list) -> unit
@@ -67,8 +77,11 @@ end = struct
     fun output_debug(xs) =
         print("\n\nv v v text for debug v v v \n\n" ^ to_debug(xs) ^ "val identity = " ^ debug_to_s_text() ^ "\n\n^ ^ ^ text for debug ^ ^ ^ \n\n\n")
 
-    fun assert_create_empty_completion(compare_keys, to_key, exception_note) =
+    fun assert_create_empty_completion_with_exception_note(exception_note) =
         CompletionTesting.assertEvalCompletionWithMessageAndExceptionNote(fn()=>BinarySearchTree.create_empty(compare_keys, to_key) , "create_empty(compare_keys, to_key)", exception_note)
+
+    fun assert_create_empty_completion() =
+        assert_create_empty_completion_with_exception_note("")
 
     fun assert_find_completion(bst, entry, bst_binding, exception_note) =
 		CompletionTesting.assertEvalCompletionWithMessageAndExceptionNote(fn()=>BinarySearchTree.find(bst, to_key(entry)), "find(" ^ bst_binding ^ ", " ^ to_string_from_key(to_key(entry)) ^ ")", exception_note)
@@ -127,7 +140,7 @@ end = struct
 
     fun test_implemented(entry, exception_note) = 
         let
-            val bst = assert_create_empty_completion(compare_keys, to_key, exception_note) 
+            val bst = assert_create_empty_completion_with_exception_note(exception_note) 
             val _ = assert_find_completion(bst, entry, "bst", exception_note) 
             val (bst_prime, _) = assert_insert_completion(bst, entry, "bst", exception_note) 
         in
@@ -172,7 +185,7 @@ end = struct
 
     fun insert_all_no_duplicates(xs) =
         let 
-            val bst_empty = assert_create_empty_completion(compare_keys, to_key, "")
+            val bst_empty = assert_create_empty_completion()
             val bst_binding = "updated_bst"
             fun f(x, (bst, xs)) =
                 let 
@@ -251,13 +264,28 @@ end = struct
             UnitTesting.leave()
         end
 
+    val ignore_potential_remove_problems_for_full_credit_ref = ref true
+
+    fun set_ignore_potential_remove_problems_for_full_credit(ignore_potential_remove_problems_for_full_credit) =
+        ignore_potential_remove_problems_for_full_credit_ref := ignore_potential_remove_problems_for_full_credit
+
     fun assertInsertAllInOrderFollowedByRemove(entries: entry list, entry_to_remove : entry) : unit = 
         let
+            fun f(entry) = 
+                entry = entry_to_remove
+            val expected_prev = List.find f entries
             val _ = UnitTesting.enter("assertInsertAllInOrderFollowedByRemove(" ^ EntryTesting.toStringFromList(entries) ^ ", " ^ EntryTesting.toString(entry_to_remove) ^ ")")
             val bst = assert_insert_all(entries)
             val _ = UnitTesting.enter("remove " ^ to_string_from_key(to_key(entry_to_remove)))
-            val bst' = assert_remove(SOME(entry_to_remove), "bst", bst, to_key(entry_to_remove)) handle e => (output_debug(entries, []); raise e)
+            val bst' = assert_remove(expected_prev, "bst", bst, to_key(entry_to_remove)) handle e => (output_debug(entries, [entry_to_remove]); raise e)
             val _ = assert_find(NONE, "bst_after_remove", bst', to_key(entry_to_remove)) handle e => (output_debug(entries, [entry_to_remove]); raise e)
+            fun remove_entry(nil) = nil
+              | remove_entry(x::xs') = if x=entry_to_remove then xs' else x::remove_entry(xs')
+            val expected_entries_after_remove = remove_entry(entries)
+            val _ = 
+                if !ignore_potential_remove_problems_for_full_credit_ref
+                then ()
+                else assert_bst_to_list(expected_entries_after_remove, "bst_after_remove", bst') handle e => (output_debug(entries, [entry_to_remove]); raise e)
             fun f(entry) = 
                 if entry = entry_to_remove
                 then ()
