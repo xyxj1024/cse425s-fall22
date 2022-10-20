@@ -160,7 +160,7 @@ structure MacroBstTesting = struct
 			UnitTesting.leave() 
 		end
 
-	fun test_bst(is_remove_testing_desired, is_remove_non_present_desired) = 
+	fun test_bst(is_remove_testing_desired, ignore_potential_remove_problems_for_full_credit) = 
 		( UnitTesting.enter("bst")
 
 			; IntBstTesting.test_bare_minimum_implemented(425)
@@ -179,7 +179,8 @@ structure MacroBstTesting = struct
 			; ( 
 				if is_remove_testing_desired
 				then 
-					( StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "A")
+					( StringBstTesting.set_ignore_potential_remove_problems_for_full_credit(ignore_potential_remove_problems_for_full_credit)
+					; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "A")
 					; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "C")
 					; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "E")
 					; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "H")
@@ -188,9 +189,13 @@ structure MacroBstTesting = struct
 					; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "D")
 					; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "B")
 					; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "F")
-					; (	if is_remove_non_present_desired
-						then 
-							( StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "0_is_before_A_non_present")
+					; (	if ignore_potential_remove_problems_for_full_credit
+						then ()
+						else
+							( StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["B"], "A")
+							; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["B"], "C")
+							; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["Ted","Jackie","Bobby","Bill"], "Michael")
+							; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "0_is_before_A_non_present")
 							; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "A_non_present")
 							; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "B_non_present")
 							; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "C_non_present")
@@ -202,15 +207,15 @@ structure MacroBstTesting = struct
 							; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "I_non_present")
 							; StringBstTesting.assertInsertAllInOrderFollowedByRemove( ["F","B","A","D","C","E","G","I","H"], "J_non_present")
 							)
-						else ()
 					)
 
 					; IntBstTesting.assertInsertAllInRandomOrderFollowedByRemoveEachInRandomOrderRepeatedly(iteration_count, [0,1,2,3,4,5,6,7,8,9], rnd)
 					; StringBstTesting.assertInsertAllInRandomOrderFollowedByRemoveEachInRandomOrderRepeatedly(iteration_count, ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"], rnd)
 					; 
-					(	if is_remove_non_present_desired
-						then name_tree_test(is_remove_testing_desired)
-						else ())
+					(	if ignore_potential_remove_problems_for_full_credit
+						then ()
+						else name_tree_test(is_remove_testing_desired)
+					)
 					)
 				else ()
 			)

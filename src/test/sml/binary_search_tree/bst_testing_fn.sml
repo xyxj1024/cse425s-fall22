@@ -10,6 +10,9 @@ functor BstTestingFn (
         val debug_to_s_text : unit -> string
     end
 ) : sig
+    (* TODO: REMOVE *)
+    val set_ignore_potential_remove_problems_for_full_credit : bool -> unit
+
     val test_bare_minimum_implemented : BstTestingParam.entry -> unit
     val test_reasonable_minimum_implemented : BstTestingParam.entry -> unit
     val test_reasonable_minimum_correct : (BstTestingParam.entry * BstTestingParam.entry) -> unit
@@ -261,6 +264,11 @@ end = struct
             UnitTesting.leave()
         end
 
+    val ignore_potential_remove_problems_for_full_credit_ref = ref true
+
+    fun set_ignore_potential_remove_problems_for_full_credit(ignore_potential_remove_problems_for_full_credit) =
+        ignore_potential_remove_problems_for_full_credit_ref := ignore_potential_remove_problems_for_full_credit
+
     fun assertInsertAllInOrderFollowedByRemove(entries: entry list, entry_to_remove : entry) : unit = 
         let
             fun f(entry) = 
@@ -271,6 +279,13 @@ end = struct
             val _ = UnitTesting.enter("remove " ^ to_string_from_key(to_key(entry_to_remove)))
             val bst' = assert_remove(expected_prev, "bst", bst, to_key(entry_to_remove)) handle e => (output_debug(entries, [entry_to_remove]); raise e)
             val _ = assert_find(NONE, "bst_after_remove", bst', to_key(entry_to_remove)) handle e => (output_debug(entries, [entry_to_remove]); raise e)
+            fun remove_entry(nil) = nil
+              | remove_entry(x::xs') = if x=entry_to_remove then xs' else x::remove_entry(xs')
+            val expected_entries_after_remove = remove_entry(entries)
+            val _ = 
+                if !ignore_potential_remove_problems_for_full_credit_ref
+                then ()
+                else assert_bst_to_list(expected_entries_after_remove, "bst_after_remove", bst') handle e => (output_debug(entries, [entry_to_remove]); raise e)
             fun f(entry) = 
                 if entry = entry_to_remove
                 then ()
