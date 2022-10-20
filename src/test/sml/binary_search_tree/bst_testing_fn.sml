@@ -263,10 +263,13 @@ end = struct
 
     fun assertInsertAllInOrderFollowedByRemove(entries: entry list, entry_to_remove : entry) : unit = 
         let
+            fun f(entry) = 
+                entry = entry_to_remove
+            val expected_prev = List.find f entries
             val _ = UnitTesting.enter("assertInsertAllInOrderFollowedByRemove(" ^ EntryTesting.toStringFromList(entries) ^ ", " ^ EntryTesting.toString(entry_to_remove) ^ ")")
             val bst = assert_insert_all(entries)
             val _ = UnitTesting.enter("remove " ^ to_string_from_key(to_key(entry_to_remove)))
-            val bst' = assert_remove(SOME(entry_to_remove), "bst", bst, to_key(entry_to_remove)) handle e => (output_debug(entries, []); raise e)
+            val bst' = assert_remove(expected_prev, "bst", bst, to_key(entry_to_remove)) handle e => (output_debug(entries, [entry_to_remove]); raise e)
             val _ = assert_find(NONE, "bst_after_remove", bst', to_key(entry_to_remove)) handle e => (output_debug(entries, [entry_to_remove]); raise e)
             fun f(entry) = 
                 if entry = entry_to_remove
