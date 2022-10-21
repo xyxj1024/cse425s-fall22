@@ -1,0 +1,9 @@
+Group
+    structure BinaryIntTreeTesting
+is
+    binary_int_tree_testing.sml
+    ../../../main/sml/warmup_binary_int_tree/binary_int_tree.cm
+    ../unit_testing/unit_testing.cm
+    ../to_string/to_string.cm
+    $/basis.cm
+    $/smlnj-lib.cm
