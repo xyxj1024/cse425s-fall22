@@ -2,12 +2,18 @@
 (require 2htdp/image)
 (provide (all-defined-out))
 
-; __STUDENT_NAME__
+; Xingjian Xuanyuan
 (define (tri-bar-flag/left-to-right width height left-color middle-color right-color)
-   (error 'not-yet-implemented))
+   (overlay/align "left" "middle"
+                  (rectangle (/ width 3) height "solid" left-color)
+                  (rectangle (/ (* width 2) 3) height "solid" middle-color)
+                  (rectangle width height "solid" right-color)))
 
 (define (tri-bar-flag/top-to-bottom width height top-color middle-color bottom-color)
-   (error 'not-yet-implemented))
+   (overlay/align "middle" "top"
+                  (rectangle width (/ height 3) "solid" top-color)
+                  (rectangle width (/ (* height 2) 3) "solid" middle-color)
+                  (rectangle width height "solid" bottom-color)))
 
 (define (france-flag w h)
   (tri-bar-flag/left-to-right w h "blue" "white" "red"))

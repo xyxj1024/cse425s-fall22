@@ -9,7 +9,7 @@ structure SpreadsheetToDictionaries = struct
      type (cell, cell) dictionary = (cell, cell) Record *)
   fun spreadsheet_to_dictionaries_using_headers_as_keys(s : sheet) : (cell, cell) SingleChainedDictionary.dictionary list =
     let
-      (* returns a cell list, which is the first row if s *)
+      (* returns a cell list, which is the first row of s *)
       val keys = Spreadsheet.row_at(s, 0)
 
       (* returns a (key, value) pair list list *)
