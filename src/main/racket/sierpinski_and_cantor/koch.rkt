@@ -26,7 +26,7 @@
   (cond
     [(zero? depth) (line side-length 0 "black")]
     [else
-     (local [(define c (koch-curve-line (/ side-length 3) depth))]
+     (local [(define c (koch-curve-line (/ side-length 3) (- depth 1)))]
        (above
         (beside
          (rotate 60 c)
@@ -49,7 +49,7 @@
   (cond
     [(zero? n) (triangle side-length "solid" "black")]
     [else
-     (local [(define c (koch-curve (/ side-length 3) n))]
+     (local [(define c (koch-curve (/ side-length 3) (- n 1)))]
        (above
         (beside
          (rotate 60 c)
@@ -94,14 +94,14 @@
   ; (koch-curve 400 7)
 
   ; (koch-curve-line 729 3)
-  ; (koch-curve-line 729 4)
-  ; (koch-curve-line 729 5)
+  (koch-curve-line 729 4)
+  (koch-curve-line 729 5)
   ; (koch-curve-line 729 6)
   ; (koch-curve-line 729 7)
 
-  (koch-snowflake-line 729 3)
+  ; (koch-snowflake-line 729 3)
   (koch-snowflake-line 729 4)
-  ; (koch-snowflake-line 729 5)
+  (koch-snowflake-line 729 5)
   ; (koch-snowflake-line 729 6)
   ; (koch-snowflake-line 729 7)
 
