@@ -4,7 +4,7 @@
 
 ; __STUDENT_NAME__
 (define (snowflake len iter is-flipped) 
-        (error 'not-yet-implemented)) 
+        (raise (error 'not-yet-implemented))) 
 
 (define (snowflake-symmetric len iter)
   (snowflake len iter #f))
