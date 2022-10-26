@@ -3,7 +3,36 @@
 (require "spacer.rkt")
 (provide (all-defined-out))
 
+(define (pow base exponent)
+  (cond
+    [(zero? exponent) 1]
+    [else
+     (* base (pow base (- exponent 1)))]))
+
 ; Xingjian Xuanyuan
+(define (koch-curve-line side-length depth)
+  (cond
+    [(zero? depth) (line side-length 0 "black")]
+    [else
+     (local [(define smaller (koch-curve-line (/ side-length 3) (- depth 1)))]
+       (beside/align
+        "bottom"
+        smaller
+        (rotate 60 smaller)
+        (rotate -60 smaller)
+        smaller))]))
+
+(define (koch-snowflake-line side-length depth)
+  (cond
+    [(zero? depth) (line side-length 0 "black")]
+    [else
+     (local [(define c (koch-curve-line (/ side-length 3) depth))]
+       (above
+        (beside
+         (rotate 60 c)
+         (rotate -60 c))
+        (flip-vertical c)))]))
+
 ; https://docs.racket-lang.org/teachpack/2htdpimage-guide.html
 (define (koch-curve side-length n)
   (cond
@@ -58,15 +87,27 @@
 ; TODO: fractal-tree, fractal-snowflake, draw to scene
 
 (module+ main ; evualated when enclosing module is run directly (that is: not via require)
-  (koch-curve 400 3)
-  (koch-curve 400 4)
-  (koch-curve 400 5)
-  (koch-curve 400 6)
-  (koch-curve 400 7)
+  ; (koch-curve 400 3)
+  ; (koch-curve 400 4)
+  ; (koch-curve 400 5)
+  ; (koch-curve 400 6)
+  ; (koch-curve 400 7)
 
-  (koch-snowflake 400 3)
-  (koch-snowflake 400 4)
-  (koch-snowflake 400 5)
-  (koch-snowflake 400 6)
-  (koch-snowflake 400 7)
+  ; (koch-curve-line 729 3)
+  ; (koch-curve-line 729 4)
+  ; (koch-curve-line 729 5)
+  ; (koch-curve-line 729 6)
+  ; (koch-curve-line 729 7)
+
+  (koch-snowflake-line 729 3)
+  (koch-snowflake-line 729 4)
+  ; (koch-snowflake-line 729 5)
+  ; (koch-snowflake-line 729 6)
+  ; (koch-snowflake-line 729 7)
+
+  ; (koch-snowflake 400 3)
+  ; (koch-snowflake 400 4)
+  ; (koch-snowflake 400 5)
+  ; (koch-snowflake 400 6)
+  ; (koch-snowflake 400 7)
   )
