@@ -3,6 +3,8 @@
 (require 2htdp/universe)
 (provide (all-defined-out))
 
+; Xingjian Xuanyuan
+
 (define scene-width 800)
 (define scene-height 500)
 

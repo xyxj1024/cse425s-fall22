@@ -10,11 +10,11 @@
      (* base (pow base (- exponent 1)))]))
 
 ; Xingjian Xuanyuan
-(define (koch-curve-line side-length depth)
+(define (koch-curve-line side-length depth color)
   (cond
-    [(zero? depth) (line side-length 0 "black")]
+    [(zero? depth) (line side-length 0 color)]
     [else
-     (local [(define smaller (koch-curve-line (/ side-length 3) (- depth 1)))]
+     (local [(define smaller (koch-curve-line (/ side-length 3) (- depth 1) color))]
        (beside/align
         "bottom"
         smaller
@@ -22,11 +22,11 @@
         (rotate -60 smaller)
         smaller))]))
 
-(define (koch-snowflake-line side-length depth)
+(define (koch-snowflake-line side-length depth color)
   (cond
-    [(zero? depth) (line side-length 0 "black")]
+    [(zero? depth) (line side-length 0 color)]
     [else
-     (local [(define c (koch-curve-line (/ side-length 3) (- depth 1)))]
+     (local [(define c (koch-curve-line (/ side-length 3) (- depth 1) color))]
        (above
         (beside
          (rotate 60 c)
@@ -55,6 +55,16 @@
          (rotate 60 c)
          (rotate -60 c))
         (flip-vertical c)))]))
+
+(define (koch-curve-line-2 side-length depth)
+  (cond
+    [(zero? depth) (line (/ side-length (pow 3 3)) 0 "blue")]
+    [else
+     (local [(define next-depth (- depth 1))
+             (define next-length (/ side-length 3))
+             (define (khelper ang) (rotate ang (koch-curve-line-2 next-length next-depth)))]
+       (apply beside/align "bottom"
+              (map khelper (list 0 60 -60 0))))]))
 
 ; https://course.ccs.neu.edu/cs2500f14/
 (define PI (* 4.0 (atan 1.0)))
@@ -94,20 +104,26 @@
   ; (koch-curve 400 7)
 
   ; (koch-curve-line 729 3)
-  (koch-curve-line 729 4)
-  (koch-curve-line 729 5)
+  ; (koch-curve-line 729 4)
+  ; (koch-curve-line 729 5)
   ; (koch-curve-line 729 6)
   ; (koch-curve-line 729 7)
 
-  ; (koch-snowflake-line 729 3)
-  (koch-snowflake-line 729 4)
-  (koch-snowflake-line 729 5)
-  ; (koch-snowflake-line 729 6)
-  ; (koch-snowflake-line 729 7)
+  ; (koch-snowflake-line 300 3 "blue")
+  (koch-snowflake-line 300 4 "blue")
+  (koch-snowflake-line 300 5 "blue")
+  (koch-snowflake-line 300 6 "blue")
+  ; (koch-snowflake-line 300 7 "blue")
 
-  ; (koch-snowflake 400 3)
-  ; (koch-snowflake 400 4)
-  ; (koch-snowflake 400 5)
-  ; (koch-snowflake 400 6)
-  ; (koch-snowflake 400 7)
+  ; (koch-snowflake 300 3)
+  ; (koch-snowflake 300 4)
+  ; (koch-snowflake 300 5)
+  ; (koch-snowflake 300 6)
+  ; (koch-snowflake 300 7)
+
+  ; (koch-curve-line-2 300 3)
+  (koch-curve-line-2 300 4)
+  (koch-curve-line-2 300 5)
+  (koch-curve-line-2 300 6)
+  ; (koch-curve-line-2 300 7)
   )
