@@ -10,11 +10,16 @@ end = struct
             val _ = UnitTesting.enter("spreadsheet_to_dictionaries_using_headers_as_keys")
 
 			fun binding_to_spreadsheet(binding) =
-				case binding of
+				(* bug in string literal pattern matching on windows forced this if elseif *)
+				if binding = "SpreadsheetTesting.nums_spreadsheet" then SpreadsheetTesting.nums_spreadsheet
+				else if binding = "SpreadsheetTesting.grades_spreadsheet" then SpreadsheetTesting.grades_spreadsheet
+				else if binding = "SpreadsheetTesting.hockey_spreadsheet" then SpreadsheetTesting.hockey_spreadsheet
+				else raise Fail binding
+				(* case binding of
 				  "SpreadsheetTesting.nums_spreadsheet" => SpreadsheetTesting.nums_spreadsheet
 				| "SpreadsheetTesting.grades_spreadsheet" => SpreadsheetTesting.grades_spreadsheet
 				| "SpreadsheetTesting.hockey_spreadsheet" => SpreadsheetTesting.hockey_spreadsheet
-				| _ => raise Fail binding
+				| _ => raise Fail binding *)
 
 			fun spreadsheet_to_dictionaries_using_headers_as_keys_with_exception_handling(expected_binding, spreadsheet_binding) =
 				spreadsheet_to_dictionaries_using_headers_as_keys(
@@ -31,11 +36,13 @@ end = struct
             val hockey_dicts = spreadsheet_to_dictionaries_using_headers_as_keys_with_exception_handling("hockey_dicts", "SpreadsheetTesting.hockey_spreadsheet")
 
 			fun binding_to_dicts(binding) =
-				case binding of
-				  "nums_dicts" => nums_dicts
-				| "grades_dicts" => grades_dicts
-				| "hockey_dicts" => hockey_dicts
-				| _ => raise Fail binding
+				(* bug in string literal pattern matching on windows
+				   does not seem to be tripped by this particular set of strings.
+				   however, we use elect to use if/elseif anyway *)
+				if binding = "nums_dicts" then nums_dicts
+				else if binding = "grades_dicts" then grades_dicts
+				else if binding = "hockey_dicts" then hockey_dicts
+				else raise Fail binding
 
 			fun assert_length(expected, binding) =
 				IntTesting.assertEvalEqualsWithMessage(
@@ -60,17 +67,17 @@ end = struct
             val hockey_dict_c = List.nth(hockey_dicts, 2)
 
 			fun binding_to_dict(binding) =
-				case binding of
-				  "nums_dict_a" => nums_dict_a
-				| "grades_dict_a" => grades_dict_a
-				| "grades_dict_b" => grades_dict_b
-				| "grades_dict_c" => grades_dict_c
-				| "grades_dict_d" => grades_dict_d
-				| "grades_dict_e" => grades_dict_e
-				| "hockey_dict_a" => hockey_dict_a
-				| "hockey_dict_b" => hockey_dict_b
-				| "hockey_dict_c" => hockey_dict_c
-				| _ => raise Fail binding
+				(* bug in string literal pattern matching on windows forced this if elseif *)
+				if binding = "nums_dict_a" then nums_dict_a
+				else if binding = "grades_dict_a" then grades_dict_a
+				else if binding = "grades_dict_b" then grades_dict_b
+				else if binding = "grades_dict_c" then grades_dict_c
+				else if binding = "grades_dict_d" then grades_dict_d
+				else if binding = "grades_dict_e" then grades_dict_e
+				else if binding = "hockey_dict_a" then hockey_dict_a
+				else if binding = "hockey_dict_b" then hockey_dict_b
+				else if binding = "hockey_dict_c" then hockey_dict_c
+				else raise Fail binding
 
 			fun assert_get(expected, (binding, key)) =
 				CellTesting.assertOptionEvalEqualsWithMessage(
