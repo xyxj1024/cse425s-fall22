@@ -124,10 +124,16 @@ end = struct
 		end
 
 	fun binding_to_set_operation(binding) =
-		case binding of
+		(* bug in string literal pattern matching on windows
+		   does not seem to be tripped by this particular set of strings.
+		   however, we use elect to use if/elseif anyway *)
+		if binding = "intersection" then IntRedBlackSet.intersection
+		else if binding = "union" then IntRedBlackSet.union
+		else raise Fail binding
+		(* case binding of
 		  "intersection" => IntRedBlackSet.intersection
 		| "union" => IntRedBlackSet.union
-		| _ => raise Fail binding
+		| _ => raise Fail binding *)
 
 	fun assert_set_operation_scan set_operation_name (expected_list_of_lists, list_of_lists) =
 		let

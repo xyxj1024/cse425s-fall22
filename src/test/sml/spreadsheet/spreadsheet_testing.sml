@@ -57,11 +57,18 @@ end = struct
     val hockey_spreadsheet = [[TEXT("Name"), TEXT("Uniform Number"), TEXT("Birth Year"), TEXT("Games Played"), TEXT("Goals"), TEXT("Assists")], [TEXT("Bobby Orr"), INTEGER(4), INTEGER(1948), INTEGER(657), INTEGER(270), INTEGER(645)], [TEXT("Wayne Gretzky"), INTEGER(99), INTEGER(1961), INTEGER(1487), INTEGER(894), INTEGER(1963)], [TEXT("Mario Lemieux"), INTEGER(66), INTEGER(1965), INTEGER(915), INTEGER(690), INTEGER(1033)]]
 
 	fun binding_to_spreadsheet(binding) =
-		case binding of
+		(* bug in string literal pattern matching on windows
+		   does not seem to be tripped by this particular set of strings.
+		   however, we use elect to use if/elseif anyway *)
+		if binding="nums_spreadsheet" then nums_spreadsheet
+		else if binding="grades_spreadsheet" then grades_spreadsheet
+		else if binding="hockey_spreadsheet" then hockey_spreadsheet
+		else raise Fail binding
+		(* case binding of
 			"nums_spreadsheet" => nums_spreadsheet
 		| "grades_spreadsheet" => grades_spreadsheet
 		| "hockey_spreadsheet" => hockey_spreadsheet
-		| _ => raise Fail binding
+		| _ => raise Fail binding *)
 
     fun test_create_sheet() =
 		let
