@@ -16,11 +16,18 @@
    (check-true (mupl-value? (aunit)))
 
    (check-true (mupl-value? (int 42)))
+   (check-true (mupl-value? (int 0)))
    (check-false (mupl-value? 42))
+   (check-false (mupl-value? 0.0))
 
    (check-true (mupl-value? (apair (aunit) (aunit))))
+   (check-true (mupl-value? (apair (aunit) (apair (aunit) (aunit)))))
    (check-true (mupl-value? (apair (int 231) (int 425))))
+   (check-true (mupl-value? (apair (int 231) (apair (int 425) (int 42)))))
+   (check-true (mupl-value? (apair (int 425) (aunit))))
+   (check-true (mupl-value? (apair (int 425) (apair (int 231) (aunit)))))
    (check-false (mupl-value? (cons 231 425)))
+   (check-false (mupl-value? (cons 425 "cse425s")))
    (check-false (mupl-value? (cons (aunit) (aunit))))
    (check-false (mupl-value? (cons (int 231) (int 425))))
 
