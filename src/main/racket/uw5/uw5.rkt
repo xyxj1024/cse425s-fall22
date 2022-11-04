@@ -341,14 +341,14 @@
            [v2 (eval-under-env (call-actual e) env)])
        (if (not (closure? v1))
            (error "MUPL call-funexp not a closure")
-           (let ([function-name (fun-nameopt (closure-fun v1))])
+           (let ([function-name (fun-challenge-nameopt (closure-fun v1))])
              (if (not function-name) ; the first argument is #f
-                 (eval-under-env (fun-body (closure-fun v1))
-                                 (expand-environment (fun-formal (closure-fun v1))
+                 (eval-under-env (fun-challenge-body (closure-fun v1))
+                                 (expand-environment (fun-challenge-formal (closure-fun v1))
                                                      v2
                                                      (closure-env v1)))
-                 (eval-under-env (fun-body (closure-fun v1))
-                                 (expand-environment (fun-formal (closure-fun v1))
+                 (eval-under-env (fun-challenge-body (closure-fun v1))
+                                 (expand-environment (fun-challenge-formal (closure-fun v1))
                                                      v2
                                                      (expand-environment function-name
                                                                          v1
