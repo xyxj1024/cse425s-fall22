@@ -5,9 +5,13 @@
 (define base-case-color (make-color 144 0 0))
 (define recursive-case-color (make-color 0 109 219))
 
-; __STUDENT_NAME__
+; Xingjian Xuanyuan
 (define (shrinking-to-the-right-circles radius n)
-        (error 'not-yet-implemented)) 
+  (cond
+    [(= n 0) (circle radius "solid" base-case-color)]
+    [#t
+     (beside (circle radius "outline" recursive-case-color)
+             (shrinking-to-the-right-circles (/ (* radius 3) 4) (- n 1)))])) 
 
 (module+ main ; evualated when enclosing module is run directly (that is: not via require)
   (displayln 0)
@@ -24,4 +28,4 @@
   (shrinking-to-the-right-circles 128 5)
   (displayln "\n\n6")
   (shrinking-to-the-right-circles 128 6)
-)
+  )

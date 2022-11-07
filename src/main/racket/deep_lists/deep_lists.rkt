@@ -2,7 +2,7 @@
 
 (provide (all-defined-out))
 
-; __STUDENT_NAME__
+; Xingjian Xuanyuan
 
 (define (deep-fold list-fold)
         (error 'not-yet-implemented)) 
