@@ -2,7 +2,20 @@ require 'opengl'
 require 'chunky_png'
 
 class OpenGLTextureCheck
-  def initialize(path)
+  def initialize(sub_path)
+    if File.exist?(sub_path)
+      path = sub_path
+    else
+      begin
+        path = File.join(__dir__, sub_path)
+      rescue
+        path = sub_path
+      end
+    end
+    unless File.exist?(path)
+      require_relative '../../../core/ruby/download/download_utils.rb'
+      path = DownloadUtils.download("https://www.cse.wustl.edu/~dennis.cosgrove/courses/cse425s/timeless/ruby/resources/" + sub_path)
+    end
     @image = ChunkyPNG::Image.from_file(path)
     @data = @image.to_rgb_stream.each_byte.to_a.pack("C*")
   end
