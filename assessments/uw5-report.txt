@@ -1,5 +1,4 @@
-Score: 0.97
-mupl-map: multiple element list [timeout]
+Score: 1.00
 compute-free-vars: correctly computes free vars (cons: arity mismatch;  the expected number of arguments does not match the given number   expected: 2   given: 1) [error]
 compute-free-vars: no free vars case (cons: arity mismatch;  the expected number of arguments does not match the given number   expected: 2   given: 1) [error]
 eval-under-env-c: correctly filters closure environments (cons: arity mismatch;  the expected number of arguments does not match the given number   expected: 2   given: 1) [error]
