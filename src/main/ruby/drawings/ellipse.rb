@@ -1,4 +1,4 @@
-# __STUDENT_NAME__
+# Xingjian Xuanyuan
 
 class Ellipse
   # investigate cavalcade_of_graphics for example code

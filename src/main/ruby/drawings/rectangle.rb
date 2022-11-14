@@ -1,7 +1,18 @@
-# __STUDENT_NAME__
+# Xingjian Xuanyuan
 
 class Rectangle
   # investigate cavalcade_of_graphics for example code
+  def initialize(hw, hh)
+    @half_width = hw
+    @half_height = hh
+    # render a rectangle
+    glBegin(GL_QUADS)
+    glVertex2d(hw, -hh)   # bottom right
+    glVertex2d(hw, hh)    # top right
+    glVertex2d(-hw, hh)   # top left
+    glVertex2d(-hw, -hh)  # bottom left
+    glEnd()
+  end
 end
 
 

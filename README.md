@@ -7,5 +7,5 @@ Repo description: Warm-ups and assignments from programming languages courses ta
 Course wiki: [https://classes.engineering.wustl.edu/cse425s/](https://classes.engineering.wustl.edu/cse425s/)
 
 Some writeups:
-- [A binary tree data structure implemented in SML](https://xingjianxuanyuan.github.io/bst-sml/)
-- [Lazy evaluation, memoization, thunks & streams](https://xingjianxuanyuan.github.io/streams-racket/)
+* [A binary tree data structure implemented in SML](https://xingjianxuanyuan.github.io/bst-sml/)
+* [Lazy evaluation, memoization, thunks & streams](https://xingjianxuanyuan.github.io/streams-racket/)
