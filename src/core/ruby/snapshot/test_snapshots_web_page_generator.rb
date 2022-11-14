@@ -202,6 +202,7 @@ class TestSnapshotsWebPageGenerator
 
   def generate_html(&block)
     is_erb_desired = false
+    create_generated_directory_if_necessary
     html_path = File.join(generated_directory_name, @html_page_filename)
     File.open(html_path, 'w') do |file|
       if is_erb_desired
@@ -327,12 +328,20 @@ class TestSnapshotsWebPageGenerator
 
   private
 
+  def create_generated_directory_if_necessary
+    FileUtils.mkdir_p generated_directory_name
+    gitignore_path = File.join(generated_directory_name, ".gitignore")
+    unless File.exist?(gitignore_path)
+      File.write(gitignore_path, '*')
+    end
+  end
+
   def generated_directory_name
     "generated"
   end
 
   def save_png(png, file_name)
-    FileUtils.mkdir_p(generated_directory_name)
+    create_generated_directory_if_necessary
     png.save(File.join(generated_directory_name, file_name))
   end
 end
