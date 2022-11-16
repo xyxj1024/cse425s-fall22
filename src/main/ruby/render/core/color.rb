@@ -29,6 +29,14 @@ class Color
     [@red, @green, @blue].hash
   end
 
+  def to_ary
+    [@red, @green, @blue]
+  end
+
+  def to_s
+    "#{self.class.name}[#{@red}, #{@green}, #{@blue}]"
+  end
+
   WHITE = Color.new(1, 1, 1)
   RED = Color.new(1, 0, 0)
   GREEN = Color.new(0, 1, 0)
