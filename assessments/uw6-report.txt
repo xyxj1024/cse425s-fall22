@@ -1,0 +1,5 @@
+Score: 0.00
+Could not run submission tests:
+/home/cosgroved/git/uw-grader/auto-grader/ruby_resources/hw6d/test.rb:44:in `<main>': uninitialized constant MyPiece::All_My_Pieces (NameError)
+Did you mean?  MyPiece::All_Pieces
+
