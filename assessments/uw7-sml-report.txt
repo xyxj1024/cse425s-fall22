@@ -1,0 +1,45 @@
+Score: 0.00
+Could not compile submission:
+[autoloading]
+[library $SMLNJ-BASIS/basis.cm is stable]
+[library $SMLNJ-BASIS/(basis.cm):basis-common.cm is stable]
+[autoloading done]
+datatype geom_exp
+  = Intersect of geom_exp * geom_exp
+  | Let of string * geom_exp * geom_exp
+  | Line of real * real
+  | LineSegment of real * real * real * real
+  | NoPoints
+  | Point of real * real
+  | Var of string
+  | VerticalLine of real
+exception BadProgram of string
+exception Impossible of string
+val epsilon = 1E~05 : real
+val real_close = fn : real * real -> bool
+val real_close_point = fn : real * real -> real * real -> bool
+val two_points_to_line = fn : real * real * real * real -> geom_exp
+val intersect = fn : geom_exp * geom_exp -> geom_exp
+val eval_prog = fn : geom_exp * (string * geom_exp) list -> geom_exp
+[opening /home/cosgroved/git/uw-grader/auto-grader/sml_resources/hw7a/testing-framework.sml]
+[autoloading]
+[library $smlnj/compiler/current.cm is stable]
+[library $smlnj/compiler/x86.cm is stable]
+[library $smlnj/viscomp/core.cm is stable]
+[library $smlnj/viscomp/basics.cm is stable]
+[library $smlnj/viscomp/elabdata.cm is stable]
+[library $smlnj/viscomp/elaborate.cm is stable]
+[library $smlnj/MLRISC/Lib.cm is stable]
+[library $SMLNJ-MLRISC/Lib.cm is stable]
+[library $smlnj/smlnj-lib/pp-lib.cm is stable]
+[library $SMLNJ-LIB/PP/pp-lib.cm is stable]
+[library $html-lib.cm(=$SMLNJ-LIB/HTML)/html-lib.cm is stable]
+[library $smlnj-lib.cm(=$SMLNJ-LIB/Util)/smlnj-lib.cm is stable]
+[library $smlnj/viscomp/debugprof.cm is stable]
+[library $smlnj/MLRISC/Control.cm is stable]
+[library $SMLNJ-MLRISC/Control.cm is stable]
+[library $controls-lib.cm(=$SMLNJ-LIB/Controls)/controls-lib.cm is stable]
+[library $smlnj/smlnj-lib/controls-lib.cm is stable]
+[autoloading done]
+###\LOADED TESTING FRAMEWORK/###
+
