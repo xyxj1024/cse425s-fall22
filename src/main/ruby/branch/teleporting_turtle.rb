@@ -1,5 +1,8 @@
 require_relative '../logo/turtle'
 
+# Xingjian Xuanyuan
+# Dennis Cosgrove
+
 class TeleportingTurtle < Turtle
   def initialize
     super

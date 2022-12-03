@@ -1,6 +1,6 @@
 require_relative 'teleporting_turtle'
 
-# __STUDENT_NAME__
+# Xingjian Xuanyuan
 # Dennis Cosgrove
 
 class Branch

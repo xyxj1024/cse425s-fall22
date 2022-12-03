@@ -1,9 +1,20 @@
-# __STUDENT_NAME__
+# Xingjian Xuanyuan
 
 require 'chunky_png'
 
 class Image
   # investigate cavalcade_of_graphics for example code
+  def initialize(path)
+    @png = ChunkyPNG::Image.from_file(path)
+    @pixel_data = @png.to_rgb_stream.each_byte.to_a.pack("C*")
+  end
+
+  def render
+    glRasterPos2f(0, 0)
+    OpenGLUtils.preserve_previous_and_set_pixel_zoom(1,-1)
+    glDrawPixels(@png.width, @png.height, GL_RGB, GL_UNSIGNED_BYTE, @pixel_data)
+    OpenGLUtils.restore_previous_pixel_zoom
+  end
 end
 
 
