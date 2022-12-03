@@ -1,5 +1,5 @@
-Score: 0.00
-Could not run submission tests:
-/home/cosgroved/git/uw-grader/auto-grader/ruby_resources/hw6d/test.rb:44:in `<main>': uninitialized constant MyPiece::All_My_Pieces (NameError)
-Did you mean?  MyPiece::All_Pieces
+Score: 0.95
+cheat_piece_well_formed: The cheat piece should be a 3-deep nested array. [incorrect answer]
+
+Because the auto-grader gave a score above 80, here is the link to a message from a very cute dog: https://drive.google.com/file/d/0B5sUgbs6aDNpZjRJSjFTdTBiV3M/view?pref=2&pli=1
 
