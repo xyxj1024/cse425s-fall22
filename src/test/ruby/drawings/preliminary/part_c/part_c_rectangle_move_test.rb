@@ -1,4 +1,6 @@
 require_relative '../../../drawings_util/transform_move_test_mixin'
+require_relative '../../../../../main/ruby/drawings/transform'
+require_relative '../../../../../main/ruby/drawings/color_transform'
 require_relative '../../../../../main/ruby/drawings/rectangle'
 
 class RectangleMoveTest < Test::Unit::TestCase

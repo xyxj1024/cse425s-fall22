@@ -1,5 +1,7 @@
 require "test/unit"
 
+require_relative '../../../../../main/ruby/drawings/transform'
+require_relative '../../../../../main/ruby/drawings/color_transform'
 require_relative '../../../../../main/ruby/drawings/equilateral_triangle'
 require_relative '../../../../../main/ruby/drawings/rectangle'
 require_relative '../../../../../main/ruby/drawings/ellipse'
@@ -8,9 +10,7 @@ require_relative '../../../../../main/ruby/drawings/text'
 require_relative '../../../../../main/ruby/drawings/circular_segment'
 require_relative '../../../../../main/ruby/drawings/bezier_curve'
 require_relative '../../../../../main/ruby/drawings/scene'
-require_relative '../../../../../main/ruby/drawings/transform'
 require_relative '../../../../../main/ruby/drawings/composite_transform'
-require_relative '../../../../../main/ruby/drawings/color_transform'
 
 
 class PartBClassHierarchyAndMethodDefinitionsTest < Test::Unit::TestCase

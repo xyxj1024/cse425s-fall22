@@ -2,6 +2,8 @@ require "test/unit"
 
 require_relative '../../../../../main/ruby/drawings/point2'
 require_relative '../../../../../main/ruby/drawings/bounding_box'
+require_relative '../../../../../main/ruby/drawings/transform'
+require_relative '../../../../../main/ruby/drawings/color_transform'
 
 require_relative '../../../../../main/ruby/drawings/rectangle'
 require_relative '../../../../../main/ruby/drawings/ellipse'
