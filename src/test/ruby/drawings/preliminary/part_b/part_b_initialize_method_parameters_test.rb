@@ -2,6 +2,8 @@ require "test/unit"
 
 require_relative '../../../drawings_util/parameter_test_utils'
 
+require_relative '../../../../../main/ruby/drawings/transform'
+require_relative '../../../../../main/ruby/drawings/color_transform'
 require_relative '../../../../../main/ruby/drawings/equilateral_triangle'
 require_relative '../../../../../main/ruby/drawings/rectangle'
 require_relative '../../../../../main/ruby/drawings/ellipse'

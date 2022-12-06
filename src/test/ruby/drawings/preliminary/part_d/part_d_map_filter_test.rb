@@ -1,5 +1,7 @@
 require "test/unit"
 
+require_relative '../../../../../main/ruby/drawings/transform'
+require_relative '../../../../../main/ruby/drawings/color_transform'
 require_relative '../../../../../main/ruby/drawings/composite'
 require_relative '../../../../../main/ruby/drawings/scene'
 require_relative '../../../../../main/ruby/drawings/composite_transform'
