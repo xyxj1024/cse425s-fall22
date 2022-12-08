@@ -11,8 +11,9 @@ class TeleportingTurtle < Turtle
   end
 
   def preserve_yield_restore
-    
-    raise "not_yet_implemented"
+    preserve_state
+    yield
+    restore_state
   end
 
   private

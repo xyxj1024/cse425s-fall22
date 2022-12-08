@@ -21,17 +21,17 @@ class Transform
 
   def render
     # preserve the current model view transform
-    glPushMatrix()
+    glPushMatrix
 
-    # translate
-    glTranslated(0.0, 0.0, 0.0)
+    # translate in the z = 0 plane
+    glTranslated(@x, @y, 0.0)
 
     # invoke a method on itself
     # all subclasses must implement a private untransformed_render method
-    self.render()
+    self.untransformed_render
 
     # restore the model view transform
-    glPopMatrix()
+    glPopMatrix
   end
   
 end
