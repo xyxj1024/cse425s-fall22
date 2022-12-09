@@ -2,30 +2,15 @@
 
 require 'chunky_png'
 
-# Render Part B Assignment
-require_relative 'transform'
-
 class Image
   # investigate cavalcade_of_graphics for example code
-  def initialize(path, x: 0, y: 0)
-    @x = x
-    @y = y
+  def initialize(path)
     @png = ChunkyPNG::Image.from_file(path)
     @pixel_data = @png.to_rgb_stream.each_byte.to_a.pack("C*")
   end
 
-  # Render Part A assignment
-  # def render
-    # glRasterPos2f(0, 0)
-    # OpenGLUtils.preserve_previous_and_set_pixel_zoom(1,-1)
-    # glDrawPixels(@png.width, @png.height, GL_RGB, GL_UNSIGNED_BYTE, @pixel_data)
-    # OpenGLUtils.restore_previous_pixel_zoom
-  # end
-
-  # All subclasses of Transform must implement a private untransformed_render method
-  private
-  def untransformed_render
-    glRasterPos2f(@x, @y)
+  def render
+    glRasterPos2f(0, 0)
     OpenGLUtils.preserve_previous_and_set_pixel_zoom(1,-1)
     glDrawPixels(@png.width, @png.height, GL_RGB, GL_UNSIGNED_BYTE, @pixel_data)
     OpenGLUtils.restore_previous_pixel_zoom

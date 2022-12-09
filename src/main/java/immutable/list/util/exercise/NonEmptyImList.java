@@ -62,9 +62,28 @@ import immutable.list.util.core.ImList;
 
 	@Override
 	public Iterator<E> iterator() {
-
-		throw new NotYetImplementedException();
-
+		/* return an iterator for this instance of NonEmptyImList */
+		return new Iterator<E> () {
+			private ImList<E> elements = NonEmptyImList.this;
+			
+			public boolean hasNext() {
+				if (elements.isEmpty()) {
+					return false;
+				} else {
+					return true;
+				}
+			}
+			
+			public E next() {
+				if (elements.isEmpty()) {
+					throw new NoSuchElementException();
+				} else {
+					E item = elements.head();
+					elements = elements.tail();
+					return item;
+				}
+			}
+		};
 	}
 
 	@Override

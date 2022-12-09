@@ -14,7 +14,6 @@ class CircularSegment
     slice_count = 32
     delta_theta = (@theta_z - @theta_a) / slice_count
     theta = @theta_a
-    slice_count += 1
     glBegin(GL_POLYGON)
     slice_count.times do
       glVertex2f(@x_radius * Math.cos(theta), @y_radius * Math.sin(theta))

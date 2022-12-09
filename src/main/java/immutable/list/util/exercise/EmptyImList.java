@@ -42,9 +42,17 @@ import immutable.list.util.core.ImList;
 
 	@Override
 	public Iterator<Object> iterator() {
-
-		throw new NotYetImplementedException();
-
+		
+		/* return an Iterator for the EmptyImList */
+		return new Iterator<Object> () {
+			public boolean hasNext() {
+				return false;
+			}
+			public Object next() {
+				throw new NoSuchElementException();
+			}
+		};
+		
 	}
 
 	@Override
