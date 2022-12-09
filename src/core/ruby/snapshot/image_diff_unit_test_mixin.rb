@@ -46,8 +46,14 @@ module ImageDiffUnitTestMixin
   end
 
   def png_from_uri(uri)
-    download = DownloadUtils.download(uri)
-    blob = download.read
-    ChunkyPNG::Image.from_blob(blob)
+    is_download_to_file_desired = true
+    if is_download_to_file_desired
+      file = DownloadUtils.download_if_necessary(uri)
+      ChunkyPNG::Image.from_file(file)
+    else
+      download = DownloadUtils.download_if_necessary(uri)
+      blob = download.read
+      ChunkyPNG::Image.from_blob(blob)
+    end
   end
 end
