@@ -28,7 +28,7 @@ class MyPiece < Piece
   end
 
   def self.next_piece_for_cheat (board)
-    MyPiece.new(Cheat_Piece.sample, board)
+    MyPiece.new(Cheat_Piece, board)
   end
 end
 
