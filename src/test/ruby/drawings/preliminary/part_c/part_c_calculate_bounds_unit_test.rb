@@ -34,7 +34,27 @@ class PartCCalculateBoundsUnitTest < Test::Unit::TestCase
     check_bounds_and_moved_bounds(rect, -half_side_length, -(1.0/3.0)*height, half_side_length, (2.0/3.0)*height)
   end
 
-  def test_convex_polygon_bounds
+  def test_convex_polygon_all_positive_bounds
+    points = [
+      Point2.new(1.0, 2.0),
+      Point2.new(2.0, 4.0),
+      Point2.new(3.0, 6.0),
+    ]
+    polygon = ConvexPolygon.new(points)
+    check_bounds_and_moved_bounds(polygon, 1.0, 2.0, 3.0, 6.0)
+  end
+
+  def test_convex_polygon_all_negative_bounds
+    points = [
+      Point2.new(-1.0, -2.0),
+      Point2.new(-2.0, -4.0),
+      Point2.new(-3.0, -6.0),
+    ]
+    polygon = ConvexPolygon.new(points)
+    check_bounds_and_moved_bounds(polygon, -3.0, -6.0, -1.0, -2.0)
+  end
+
+  def test_convex_polygon_positive_and_negative_bounds
     points = [
         Point2.new(1.0, -2.0),
         Point2.new(-3.0, 1.0),
@@ -70,8 +90,8 @@ class PartCCalculateBoundsUnitTest < Test::Unit::TestCase
     ]
     polygon = ConvexPolygon.new(points)
     check_bounds_and_moved_bounds(polygon, 10.0, 4.0, 12.0, 6.0)
-
     composite.push_component(polygon)
+
     send(check_method_name, composite, -half_width, -half_height, 12.0, 6.0)
 
     polygon.move(:left, 100)
