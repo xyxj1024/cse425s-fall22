@@ -62,7 +62,7 @@ class MyBoard < Board
       @current_block = MyPiece.next_piece(self)
     else
       self.will_cheat = false
-      @score -= 100
+      @score -= 50  # modified on request by Lucas
       @current_block = MyPiece.next_piece_for_cheat(self)
     end
     @current_pos = nil
@@ -93,7 +93,7 @@ class MyTetris < Tetris
     ## players can press <u> key to make the falling piece rotate 180 degrees
     @root.bind('u', proc { @board.rotate_pi_move })
     ## players can press <c> key to cheat (function defined in MyBoard)
-    @root.bind('c', proc { if @board.score >= 100 && !@board.will_cheat
+    @root.bind('c', proc { if @board.score >= 50 && !@board.will_cheat
                               @board.will_cheat = true end })
   end
 end
