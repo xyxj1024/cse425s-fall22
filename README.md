@@ -6,6 +6,6 @@ Repo description: Warm-ups and assignments from the PSL course taught by [Profes
 
 Course wiki: [https://classes.engineering.wustl.edu/cse425s/](https://classes.engineering.wustl.edu/cse425s/)
 
-Some writeups:
-* [A binary tree data structure implemented in SML](https://xyxj1024.github.io/bst-sml/)
-* [Lazy evaluation, memoization, thunks & streams](https://xyxj1024.github.io/streams-racket/)
+Some write-ups:
+* [A binary tree data structure implemented in SML](https://xyxj1024.github.io/posts/bst-sml)
+* [Lazy evaluation, memoization, thunks & streams](https://xyxj1024.github.io/posts/thunk-stream-racket)
